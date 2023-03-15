@@ -56,13 +56,18 @@ body{
                 <a href="/">Home</a>
             </li>
             <li class="${path === '/orders' ? 'active' : ''}">
-                <a href="/orders">Orders</a>
+                <form action="/views/Orders.ejs" method="get">
+                    <a href="/Orders">Orders</a>
+                </form>
             </li>
-            <li class="${path === '/complains' ? 'active' : ''}">
-                <a href="/complains">Complain</a>
+            <li >
+                <form action="/views/Complain.ejs" method="get">
+                    <a href="/Complain">Complain</a>
+                </form>
+                
             </li>
             <li class="${path === '/rebate' ? 'active' : ''}">
-                <a href="/rebate">Apply For Rebate</a>
+                <a href="/Rebate">Apply For Rebate</a>
             </li>
             <li class="${path === '/history' ? 'active' : ''}">
                 <a href="/history">History</a>
@@ -74,12 +79,19 @@ body{
                 <a href="/extras">Extras</a>
             </li>
             <li class="${path === '/mess-bill' ? 'active' : ''}">
-                <a href="/mess-bill">Mess-Bill</a>
+                <form method="get">
+
+                    <a href="/mess-bill">Mess-Bill</a>
+                </form>
             </li>
             <li>
-                <a href="/signout">Sign-Out</a>
+                <form action="/logout?_method=DELETE" method="POST">
+                    <button type="submit"  >Logout</button>
+    
+                  </form>
             </li>
         </ul>
     </nav>
+   
 </body>
 </html> 

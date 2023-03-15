@@ -73,14 +73,34 @@ app.get('/login', checkNotAuthenticated, (req, res) => {
 app.get('/register', checkNotAuthenticated, (req, res) => {
     res.render("register.ejs")
 })
+app.get('/Orders', checkAuthenticated, (req, res) => {
+    res.render("Orders.ejs")
+})
+app.get('/Complain', checkAuthenticated, (req, res) => {
+    res.render("Complain.ejs")
+})
+app.get('/Rebate', checkAuthenticated, (req, res) => {
+    res.render("Rebate.ejs")
+})
+app.get('/Mess-bill', checkAuthenticated, (req, res) => {
+    res.render("Mess-bill.ejs")
+})
+app.get('/Mess-Menu', checkAuthenticated, (req, res) => {
+    res.render("Mess-Menu.ejs")
+})
+app.get('/History', checkAuthenticated, (req, res) => {
+    res.render("History.ejs")
+})
+app.get('/Extras', checkAuthenticated, (req, res) => {
+    res.render("Extras.ejs")
+})
+
+
 // End Routes
 
-// app.delete('/logout', (req, res) => {
-//     req.logOut()
-//     res.redirect('/login')
-//   })
 
-app.delete("/logout", (req, res) => {
+
+app.delete("/logout",checkAuthenticated, (req, res) => {
     req.logout(req.user, err => {
         if (err) return next(err)
         res.redirect("/")
@@ -96,7 +116,7 @@ function checkAuthenticated(req, res, next){
 
 function checkNotAuthenticated(req, res, next){
     if(req.isAuthenticated()){
-        return res.redirect("/")
+        return res.redirect("/login")
     }
     next()
 }
