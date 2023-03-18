@@ -64,11 +64,18 @@ router.post("/auth/login", (req,res)=>{
 
 
 // Logout user
-router.get("/auth/logout",(req,res)=>{
-    //use passport logout method
-    req.logout()
-    res.redirect("/login")
-})
+router.get("/auth/logout",function(req, res, next){
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      res.redirect('/login');
+    });
+  });
+  router.post("/auth/logout",function(req, res, next){
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      res.redirect('/login');
+    });
+  });
 
 //export router
 module.exports = router;
