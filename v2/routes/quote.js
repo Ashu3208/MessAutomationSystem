@@ -24,11 +24,23 @@ router.get("/register",(req,res)=>{
 //login page
 router.get("/login",(req,res)=>{
     if(req.isAuthenticated()){
-        res.redirect('/')
+        res.render("home")
     }
     else{
         res.render("login")
     }
 })
+
+// Orders page
+router.get("/orders",(req,res)=>{
+    if(req.isAuthenticated()){
+        res.render("order")
+    }
+    else{
+        res.render("login")
+    }
+})
+
+
 
 module.exports= router
