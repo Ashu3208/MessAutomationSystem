@@ -55,7 +55,7 @@ router.post("/auth/login", (req,res)=>{
             console.log(err)
         }else{
             passport.authenticate("local")(req,res,function(){
-                res.render("home")
+                res.redirect("/")
             })
         }
         
@@ -67,7 +67,7 @@ router.post("/auth/login", (req,res)=>{
 router.get("/auth/logout",(req,res)=>{
     //use passport logout method
     req.logout()
-    res.redirect("/")
+    res.redirect("/login")
 })
 
 //export router
