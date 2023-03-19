@@ -89,54 +89,9 @@ margin-bottom:10px;
 .tab_box .tab_btn.active{
     color: #7360ff;
 }
- /* .line{
-    position: absolute;
-    top: 59px;
-    left: 0;
-    width: 150px;
-    height: 5px;
-    background-color: #7360ff;
-    border-radius: 10px;
-} */
-.nav {
-   background-color:dodgerblue;
-   color: white;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   gap: 2em;
-   padding: 0 1rem;
-}
-.site-title{
-   font-size: 2rem;
-}
-.nav ul{
-   padding: 0;
-   margin: 0;
-   list-style: none;
-   display: flex;
-   gap: 1rem; 
-}
-.nav a{
-   color: inherit;
-   text-decoration: none;
-}
-.nav li.active{
-   background-color: brown;
-}
-.nav li:hover{
-   background-color: orange;
-}
-/* .container{
-   margin: 1rem;
-   text-align: center;
-} */
-/* .card{
-    border-color: black;
-    outline-width: 20px;
-    background-color:#919191;
-    border-radius: 20px;
-} */
+
+
+
 .card-title{
     text-align: left;
     padding-bottom: 10px;
@@ -150,7 +105,7 @@ margin-bottom:10px;
             <li class="active">
                 <a href="/">Home</a>
             </li>
-            <li class="">
+            <li class="${path === '/orders' ? 'active' : ''}">
                 <form action="/views/Orders.ejs" method="get">
                     <a href="/Orders">Orders</a>
                 </form>
@@ -180,7 +135,7 @@ margin-bottom:10px;
                 </form>
             </li>
             <li>
-                <form action="/auth/logout" method="POST">
+                <form action="/auth/logout" method="get">
                     <button type="submit"  >Logout</button>
     
                   </form>

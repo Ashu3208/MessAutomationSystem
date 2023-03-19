@@ -40,17 +40,18 @@
             </li>
             <li class="${path === '/mess-bill' ? 'active' : ''}">
                 <form method="get">
-    
+
                     <a href="/mess-bill">Mess-Bill</a>
                 </form>
             </li>
             <li>
-                <form action="/logout?_method=DELETE" method="POST">
-                    <button type="submit" class="btn btn-outline-dark"  >Logout</button>
+                <form action="/auth/logout" method="get">
+                    <button type="submit"  >Logout</button>
     
                   </form>
             </li>
         </ul>
+    </nav>
     </nav>
       <div className="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label mt-3"><b>Type Your Complain Below</b></label>
