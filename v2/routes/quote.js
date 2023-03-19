@@ -42,6 +42,16 @@ router.get("/orders",(req,res)=>{
     }
 })
 
+// Mess menu page
+router.get("/mess-menu",(req,res)=>{
+    if(req.isAuthenticated()){
+        res.render("mess-menu")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+
 
 
 
