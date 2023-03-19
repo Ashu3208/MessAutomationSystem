@@ -1,7 +1,7 @@
 // require express router, passport
 const router = require('express').Router()
 const passport = require('passport')
-
+require("dotenv").config();
 
 // User Model
 const User = require('../models/User')
@@ -31,7 +31,7 @@ router.post("/auth/register", async (req,res) =>{
         const registerUser = await User.register({username: req.body.username},req.body.password);
         if(registerUser){
             passport.authenticate("local") (req,res,function(){
-                res.redirect("/home")
+                res.redirect("/login")
             })
         }else{
             res.redirect("/register")
@@ -50,7 +50,7 @@ router.post("/auth/login", (req,res)=>{
     })
 
     // using passport login method we will check if credentials are correct or not
- req.login(user,(err)=>{
+    req.login(user,(err)=>{
         if(err){
             console.log(err)
         }else{
@@ -82,6 +82,30 @@ router.get("/auth/logout",function(req, res, next){
       if (err) { return next(err); }
       res.redirect('/login');
     });
+  });
+
+
+//Getting Order Model
+const Order =require('../models/Orders')
+
+//saving orders in db
+router.post('/Orders', async(req, res) => {
+    try {
+        const order=new Order({
+            itemName:req.body.itemName,
+            quantity:req.body.quantity,
+            price:req.body.price
+        })
+        const newOrder =  order.save();
+        if(newOrder){
+        res.redirect("/Orders")
+        }else{
+            res.redirect("/Home")
+        }
+        } catch (error) {
+        res.send(error)
+    }
+    
   });
 
 //export router

@@ -65,7 +65,6 @@ router.get("/mess-menu",(req,res)=>{
 
 
 
-
 // All manager get and post requests
 router.get("/managerHome",(req,res)=>{
     if(req.isAuthenticated()){
