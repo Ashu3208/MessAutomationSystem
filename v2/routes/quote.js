@@ -1,10 +1,11 @@
 router = require('express').Router()
-
+require("dotenv").config();
 // create routes
 //get home
 router.get("/",(req,res)=>{
     if(req.isAuthenticated()){
-        res.render("home")
+        if(process.env.SUPERUSER==='true')res.redirect("/managerHome")
+        else res.render("home")
     }
     else{
         res.redirect("/login")
@@ -24,7 +25,7 @@ router.get("/register",(req,res)=>{
 //login page
 router.get("/login",(req,res)=>{
     if(req.isAuthenticated()){
-        res.render("home")
+        res.redirect("/")
     }
     else{
         res.render("login")
@@ -37,9 +38,34 @@ router.get("/orders",(req,res)=>{
         res.render("order")
     }
     else{
-        res.render("login")
+        res.redirect("/login")
     }
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// All manager get and post requests
+router.get("/managerHome",(req,res)=>{
+    if(req.isAuthenticated()){
+        res.render("managerHome")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+
 
 
 
