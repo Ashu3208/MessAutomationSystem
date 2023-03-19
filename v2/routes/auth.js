@@ -50,13 +50,20 @@ router.post("/auth/login", (req,res)=>{
     })
 
     // using passport login method we will check if credentials are correct or not
-    req.login(user,(err)=>{
+ req.login(user,(err)=>{
         if(err){
             console.log(err)
         }else{
-            passport.authenticate("local")(req,res,function(){
-                res.redirect("/")
+            if(user.username==='admin@iitk.com'&&user.password =='admin123'){
+                process.env.SUPERUSER = 'true';
+                passport.authenticate("local")(req,res,function(){
+                res.redirect("/managerHome")
             })
+            }else{
+                passport.authenticate("local")(req,res,function(){
+                    res.redirect("/")
+                })
+            }
         }
         
     })    
