@@ -52,6 +52,34 @@ router.get("/mess-menu",(req,res)=>{
     }
 })
 
+router.get("/mess-bill",(req,res)=>{
+    if(req.isAuthenticated()){
+        res.render("mess-bill")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+
+router.get("/complain",(req,res)=>{
+    if(req.isAuthenticated()){
+        res.render("complain")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+
+router.get("/rebate",(req,res)=>{
+    if(req.isAuthenticated()){
+        res.render("rebate")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+
+
 
 
 
