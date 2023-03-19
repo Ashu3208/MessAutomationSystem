@@ -52,6 +52,90 @@
             </li>
         </ul>
     </nav>
+    <h1 style="text-align: center;">Mess-Menu</h1>
+<div class="container">
+<div class="tab_box">
+    <button class="tab_btn">Monday</button>
+    <button class="tab_btn">Tuesday</button>
+    <button class="tab_btn">Wednesday</button>
+    <button class="tab_btn">Thursday</button>
+    <button class="tab_btn">Friday</button>
+    <button class="tab_btn">Saturday</button>
+    <button class="tab_btn">Sunday</button>
+    <div class="line"></div>
+</div>
+<div></div>
+<div class="content_box">
+   
+    <div class="content">
+        <h2>Monday Menu</h2>
+        <div class="row">
+            <div class="column">
+              <div class="card">
+                <h3>
+                    Breakfast
+                </h3>
+               <h4 class="card-title"  style="text-align: left">Milk</h4>
+    <h5 class="card-subtitle mb-2 text-muted" style="text-align: left";>Price: ₹11</h5>
+                
+              </div>
+            </div>
+            <div class="column">
+              <div class="card">..</div>
+            </div>
+            <div class="column">
+              <div class="card">..</div>
+            </div>
+            <div class="column">
+              <div class="card">..</div>
+            </div>
+          </div>
+        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> -->
+    </div>
+    <div class="content">
+        <h2>Tuesday</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div class="content">
+        <h2>Wednesday</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div class="content">
+        <h2>Thursday</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div class="content">
+        <h2>Friday</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div class="content">
+        <h2>Saturday</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div class="content">
+        <h2>Sunday</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+
+</div>
+</div>
+
+<script>
+    const tabs=document.querySelectorAll('.tab_btn');
+    const all_content= document.querySelectorAll('.content');
+    tabs.forEach((tab,index)=>{
+        tab.addEventListener('click',()=>{
+            tabs.forEach(tab=>{tab.classList.remove('active')});
+            tab.classList.add('active');
+        //     var line=document.querySelector('.line');
+        // line.style.width=e.target.offsetWidth+"px";
+        // line.style.left=e.target.offsetLeft+"px";
+        all_content.forEach(context=>{context.classList.remove('active')})
+        all_content[index].classList.add('active');
+        })
+    })
+</script>
+
 
 
     
