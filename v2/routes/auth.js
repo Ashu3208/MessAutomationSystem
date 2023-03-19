@@ -57,7 +57,7 @@ router.post("/auth/login", (req,res)=>{
             if(user.username==='admin@iitk.com'&&user.password =='admin123'){
                 process.env.SUPERUSER = 'true';
                 passport.authenticate("local")(req,res,function(){
-                res.redirect("/managerHome")
+                res.redirect("/manager/home")
             })
             }else{
                 passport.authenticate("local")(req,res,function(){

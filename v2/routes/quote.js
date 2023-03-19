@@ -1,10 +1,12 @@
 router = require('express').Router()
 require("dotenv").config();
+
+
 // create routes
 //get home
 router.get("/",(req,res)=>{
     if(req.isAuthenticated()){
-        if(process.env.SUPERUSER==='true')res.redirect("/managerHome")
+        if(process.env.SUPERUSER==='true')res.redirect("/manager/home")
         else res.render("home")
     }
     else{
@@ -83,26 +85,64 @@ router.get("/rebate",(req,res)=>{
 
 
 
-
-
-
-
-
-
-
-
-
-
 // All manager get and post requests
-router.get("/managerHome",(req,res)=>{
+router.get("/manager/home",(req,res)=>{
     if(req.isAuthenticated()){
-        res.render("managerHome")
+        res.render("manager/home")
     }
     else{
         res.redirect("/login")
     }
 })
 
+router.get("/manager/order",(req,res)=>{
+    if(req.isAuthenticated()){
+        res.render("manager/order")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+router.get("/manager/rebateApproval",(req,res)=>{
+    if(req.isAuthenticated()){
+        res.render("manager/rebateApproval.ejs")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+router.get("/manager/complaints",(req,res)=>{
+    if(req.isAuthenticated()){
+        res.render("manager/complaints")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+router.get("/manager/messMenu",(req,res)=>{
+    if(req.isAuthenticated()){
+        res.render("manager/messMenu")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+router.get("/manager/extras",(req,res)=>{
+    if(req.isAuthenticated()){
+        res.render("manager/extras")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+router.get("/manager/accessAccount",(req,res)=>{
+    if(req.isAuthenticated()){
+        res.render("manager/accessAccount")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
 
 
 
