@@ -1,9 +1,10 @@
 const mongoose =require("mongoose")
 
 const orderSchema = new mongoose.Schema({
-    itemName:String,
-    quantity: Number,
-    price: Number
+    rollNumber:Number,
+    itemName:Array,
+    quantity: Array,
+    price: Array
 })
 
 module.exports = mongoose.model('Order',orderSchema)
