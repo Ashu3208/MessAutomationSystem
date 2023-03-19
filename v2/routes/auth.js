@@ -60,6 +60,7 @@ router.post("/auth/login", (req,res)=>{
                 res.redirect("/manager/home")
             })
             }else{
+                process.env.SUPERUSER = 'false';
                 passport.authenticate("local")(req,res,function(){
                     res.redirect("/")
                 })
@@ -92,6 +93,7 @@ const Order =require('../models/Orders')
 router.post('/Orders', async(req, res) => {
     try {
         const order=new Order({
+            rollNumber:req.user.rollNumber,
             itemName:req.body.itemName,
             quantity:req.body.quantity,
             price:req.body.price
