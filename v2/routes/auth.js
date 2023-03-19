@@ -28,7 +28,7 @@ passport.deserializeUser(function(id, done) {
 // register user in db
 router.post("/auth/register", async (req,res) =>{
     try {
-        const registerUser = await User.register({username: req.body.username},req.body.password);
+        const registerUser = await User.register({name:req.body.name,rollNumber:req.body.rollNumber,username: req.body.username},req.body.password);
         if(registerUser){
             passport.authenticate("local") (req,res,function(){
                 res.redirect("/login")
