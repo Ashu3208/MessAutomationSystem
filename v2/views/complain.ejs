@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="site-title">IITK-Mess</a>
+        <ul>
+            <li class="active">
+                <a href="/">Home</a>
+            </li>
+            <li class="${path === '/orders' ? 'active' : ''}">
+                <form action="/views/Orders.ejs" method="get">
+                    <a href="/Orders">Orders</a>
+                </form>
+            </li>
+            <li >
+                <form action="/views/Complain.ejs" method="get">
+                    <a href="/Complain">Complain</a>
+                </form>
+                
+            </li>
+            <li class="${path === '/rebate' ? 'active' : ''}">
+                <a href="/Rebate">Apply For Rebate</a>
+            </li>
+            <li class="${path === '/history' ? 'active' : ''}">
+                <a href="/history">History</a>
+            </li>
+            <li class="${path === '/mess-menu' ? 'active' : ''}">
+                <a href="/mess-menu">Mess Menu</a>
+            </li>
+            <li class="${path === '/extras' ? 'active' : ''}">
+                <a href="/extras">Extras</a>
+            </li>
+            <li class="${path === '/mess-bill' ? 'active' : ''}">
+                <form method="get">
+    
+                    <a href="/mess-bill">Mess-Bill</a>
+                </form>
+            </li>
+            <li>
+                <form action="/logout?_method=DELETE" method="POST">
+                    <button type="submit" class="btn btn-outline-dark"  >Logout</button>
+    
+                  </form>
+            </li>
+        </ul>
+    </nav>
+      <div className="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label mt-3"><b>Type Your Complain Below</b></label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" ></textarea>
+        <button type="button" class="btn btn-primary mt-3">Submit</button>
+      </div>
+      
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+      <script>
+        const tabs=document.querySelectorAll('.tab_btn');
+        const all_content= document.querySelectorAll('.content');
+        tabs.forEach((tab,index)=>{
+            tab.addEventListener('click',()=>{
+                tabs.forEach(tab=>{tab.classList.remove('active')});
+                tab.classList.add('active');
+            //     var line=document.querySelector('.line');
+            // line.style.width=e.target.offsetWidth+"px";
+            // line.style.left=e.target.offsetLeft+"px";
+            all_content.forEach(context=>{context.classList.remove('active')})
+            all_content[index].classList.add('active');
+            })
+        })
+    </script>
+    
+    </body>
+    </html>
