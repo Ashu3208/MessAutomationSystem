@@ -54,7 +54,7 @@ router.post("/auth/login", (req,res)=>{
         if(err){
             console.log(err)
         }else{
-            if(user.username==='admin@iitk.com'&&user.password =='admin123'){
+            if(user.username===process.env.ADMIN_USERNAME&&user.password ==process.env.ADMIN_PASSWORD){
                 process.env.SUPERUSER = 'true';
                 passport.authenticate("local")(req,res,function(){
                 res.redirect("/manager/home")
@@ -109,6 +109,10 @@ router.post('/Orders', async(req, res) => {
     }
     
   });
+
+
+// Fetch API
+
 
 //export router
 module.exports = router;
