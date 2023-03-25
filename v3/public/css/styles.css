@@ -51,7 +51,7 @@ h1 {
 }
 
 .box {
-  max-width: 400px;
+  max-width: 700px;
   margin: 50px auto;
   background: #fff;
   border-radius: 5px;
@@ -67,21 +67,13 @@ h1 {
 .item {
   min-height: 70px;
   display: flex;
-  align-items: center;
+  align-items: end;
   border-bottom: 1px solid #F1F1F1;
+  margin-left: 20px;
 }
 
 .item:last-child {
   border-bottom: 0;
-}
-
-input:checked+p {
-  text-decoration: line-through;
-  text-decoration-color: dodgerblue;
-}
-
-input[type="checkbox"] {
-  margin: 20px;
 }
 
 p {
@@ -124,6 +116,18 @@ button.top{
   color: dodgerblue;
 }
 
+button.buy{
+  min-height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  
+  background-color: dodgerblue;
+  color: #fff;
+  font-size: 30px;
+  padding-bottom: 6px;
+  border-width: 0;
+}
+
 input[type="text"] {
   text-align: center;
   height: 60px;
@@ -139,6 +143,14 @@ input[type="text"]:focus {
   outline: none;
   box-shadow: inset 0 -3px 0 0 dodgerblue;
 }
+
+input[type="number"]{
+  border-color: dodgerblue;
+  width: 50px;
+  text-align: end;
+}
+
+
 
 ::placeholder {
   color: grey;
