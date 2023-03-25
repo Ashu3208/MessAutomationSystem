@@ -10,14 +10,17 @@
             <form class="item" action="/manager/extras/remove" method="post">
                 <button type="submit" class="remove" name="button" value="<%=extrasMenu[i].name%>">-</button>
                 <p >
-                    name : <%=extrasMenu[i].name%>
+                    <b>Name:</b> <%=extrasMenu[i].name%>
+                    <b>Price: ₹</b> <%=extrasMenu[i].price%>
+                    
                 </p>
                 
             </form>
             <% }%>
 
                 <form class="item" action="/manager/extras/add" method="post">
-                    <input type="text" name="newItem" placeholder="Add Extra" autocomplete="off">
+                    <input type="text" name="newItem" placeholder="Name" autocomplete="off">
+                    <input type="text" name="price" placeholder="Price" autocomplete="off">
                     <button type="submit" class="add" name="button" value="1">+</button>
                 </form>
     </div>
