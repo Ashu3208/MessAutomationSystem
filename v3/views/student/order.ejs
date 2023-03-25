@@ -1,58 +1,33 @@
 <%- include("../partials/head") %>
   <%- include("navbar") %>
-    <form action="/Orders" method="post">
-      <table id="ordersTable">
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><input type="text" name="itemName"></td>
-            <td><input type="number" name="quantity" value="1"></td>
-            <td><input type="number" name="price" value="0"></td>
-          </tr>
-        </tbody>
-      </table>
-      <button id="addRowBtn" type="button">Add more items</button>
-      <button id="calculateBtn" type="button">Calculate Total</button>
-      <p id="totalBill">Total Bill Amount: </p>
-      <button>Place Order</button>
-    </form>
 
+    <div class="box" id="heading">
+      <h1> My Orders </h1>
+    </div>
 
-    <script>
-      const addRowBtn = document.getElementById("addRowBtn");
-      const calculateBtn = document.getElementById("calculateBtn");
-      const ordersTable = document.getElementById("ordersTable");
-      const totalBill = document.getElementById("totalBill");
+    <div class="box">
+      <% for (let i=0; i < orders.length; i++) { %>
+        <div class="item">
+          <% for (let j=0; j < orders[i].itemName.length; j++) { %>
+            <div class="item">
+              <p>
+                <b>Name:</b>
+                <%=orders[i].itemName[j]%>
+                  <b>Price: ₹</b>
+                  <%=orders[i].price[j]%>
+                    <b>Quantity:</b>
+                    <%=orders[i].quantity[j]%>
+              </p>
+            </div>
+            <% }%>
 
-      addRowBtn.addEventListener("click", function () {
-        const newRow = document.createElement("tr");
-        newRow.innerHTML = `
-            <td><input type="text" name="itemName"></td>
-            <td><input type="number" name="quantity" value="1"></td>
-            <td><input type="number" name="price" value="0"></td>
-          `;
-        ordersTable.querySelector("tbody").appendChild(newRow);
-      });
+              <p><b>Total: ₹</b>
+                <%=orders[i].total%>
+              </p>
+        </div>
 
-      calculateBtn.addEventListener("click", function (event) {
-        event.preventDefault();
-        let total = 0;
-        const quantityInputs = ordersTable.querySelectorAll("input[name='quantity']");
-        const priceInputs = ordersTable.querySelectorAll("input[name='price']");
-        for (let i = 0; i < quantityInputs.length; i++) {
-          total += quantityInputs[i].value * priceInputs[i].value;
-        }
-        totalBill.textContent = "Total Bill Amount: " + total;
-      });
-
-    </script>
-
+        <% }%>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"

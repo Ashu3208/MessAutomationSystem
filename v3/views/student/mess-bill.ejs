@@ -1,6 +1,30 @@
 <%- include("../partials/head") %>
     <%- include("navbar") %>
 
+    <div class="box" id="heading">
+        <h1> Bills </h1>
+    </div>
+
+    <div class="box">
+        <% for (let i=0; i < bills.length; i++) { %>
+            <form class="item" action="/mess-bill" method="post">
+                <button type="submit" class="remove" name="button" value="<%=bills[i]._id%>">-</button>
+                <p>
+                    
+                    <b>month:</b><%=bills[i].month%>
+                    <b>year:</b><%=bills[i].year%>
+                    <b>workingDays:</b><%=bills[i].workingDays%>
+                    <b>dailyCost:</b><%=bills[i].dailyCost%>
+                    <b>rebateDays:</b><%=bills[i].rebateDays%>
+                    <b>extrasCost:</b><%=bills[i].extrasCost%>
+                    <b>total:</b><%=bills[i].total%>
+                </p>
+                
+            </form>
+            <% }%>
+
+                
+    </div>
         <div class="card">
             <table class="table">
                 <thead>
