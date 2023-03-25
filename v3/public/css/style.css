@@ -1,0 +1,46 @@
+
+* {
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+}
+.nav {
+    background-color:dodgerblue;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2em;
+    padding: 0 1rem;
+
+}
+.site-title{
+    font-size: 2rem;
+}
+.nav ul{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    gap: 1rem; 
+}
+.nav a{
+    color: inherit;
+    text-decoration: none;
+
+}
+
+.nav li:hover{
+    background-color: #fff;
+    color: dodgerblue;
+}
+.container{
+    margin: 1rem;
+    text-align: center;
+}
+button.top{
+    background-color: #fff;border-color: transparent;
+    color: dodgerblue;
+}
+  
