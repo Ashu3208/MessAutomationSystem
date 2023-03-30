@@ -1,0 +1,39 @@
+<%- include("../partials/head") %>
+    <%- include("navbar") %>
+
+        <div class="box" id="heading">
+            <h1> Rebate requests </h1>
+        </div>
+
+        <div class="box">
+            <% for (let i=0; i < rebates.length; i++) { %>
+
+
+                <div class="item">
+                    <p>
+                        <b>Roll No.:&emsp;</b>
+                        <%=rebates[i].rollNo%>
+                        <b>&emsp;No. of days:&emsp;</b>
+                            <%=rebates[i].days%> days
+                                <b>&emsp;&emsp;&emsp;&emsp;&emsp;From:&emsp;</b>
+                                <%=rebates[i].startDate%>
+                                    <b>&emsp;To:&emsp;</b>
+                                    <%=rebates[i].endDate%>
+                                        
+
+                    </p>
+                
+                <form action="/manager/rebateApproval/approved" method="post">
+                    <button type="submit" class="add" name="button" value="<%=rebates[i]._id%>">+</button>
+                </form>
+                <form action="/manager/rebateApproval/rejected" method="post">
+                    <button type="submit" class="remove" name="button" value="<%=rebates[i]._id%>">-</button>
+                </form></div>
+                <% }%>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+        </body>
+
+        </html>
