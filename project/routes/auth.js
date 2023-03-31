@@ -28,14 +28,44 @@ passport.deserializeUser(function (id, done) {
 // register user in db
 router.post("/auth/register", async (req, res) => {
     try {
-        const registerUser = await User.register({ name: req.body.name, rollNumber: req.body.rollNumber, username: req.body.username, extrasCost: 0, rebateDays: 0, dues: 0 }, req.body.password);
-        if (registerUser) {
-            passport.authenticate("local")(req, res, function () {
-                res.redirect("/login")
-            })
-        } else {
-            res.redirect("/register")
+        function isWhitespaceString(str) {
+            return /^\s*$/.test(str);
         }
+        if (!isWhitespaceString(req.body.name)) {
+            if (req.body.rollNumber > 100000 && req.body.rollNumber < 100000000) {
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@iitk\.ac\.in$/;
+
+                // Example usage:
+                const email = req.body.username;
+
+                if (emailRegex.test(email)) {
+                    console.log('Valid email');
+                    const registerUser = await User.register({ name: req.body.name, rollNumber: req.body.rollNumber, username: req.body.username, extrasCost: 0, rebateDays: 0, dues: 0 }, req.body.password);
+                    if (registerUser) {
+                        passport.authenticate("local")(req, res, function () {
+                            res.redirect("/login")
+                        })
+                    } else {
+                        res.redirect("/register")
+                    }
+                } else {
+                    console.log('Invalid email');
+                    res.redirect("/register")
+                }
+
+
+            } else {
+                console.log("invalid rollno")
+                res.redirect("/register")
+
+            }
+
+        } else {
+            console.log("empty name")
+            res.redirect("/register")
+
+        }
+
     } catch (error) {
         res.send(error)
     }

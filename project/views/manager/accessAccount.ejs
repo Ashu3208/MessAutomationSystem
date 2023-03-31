@@ -5,23 +5,54 @@
             <h1> Generate bill </h1>
         </div>
 
-        <div class="box">
-
-
+        <div class="card">
             <form action="/manager/accessAccount" method="post">
-                <div class="item">
-                    <input type="text" name="month" placeholder="Month" >
-                    <input type="text" name="year" placeholder="Year" >
-                </div>
-                <div class="item">
-                    <input type="text" name="workingDays" placeholder="Working days" >
-                    <input type="text" name="dailyCost" placeholder="Daily cost" >
-                    <button type="submit" class="add" name="button" value="1">+</button>
-                </div>
 
+                <div class="mb-3">
+                    <h1>Generate Bill</h1>
+                    <label for="startingDate" class="form-label"><b>Starting date</b></label>
+                    <input type="date" id="startingDate" class="form-control" name="startDate">
+                    <label for="endingDate" class="form-label"><b>Ending Date</b></label>
+                    <input type="date" id="endingDate" class="form-control" name="endDate">
+                    <label for="roll-number" class="form-label"><b>Daily Cost</b></label>
+                    <input type="text1" class="form-control" name="dailyCost" >
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </div>
+                <script>
+                    var startInput = document.getElementById("startingDate");
+
+                    // Disable keyboard input
+                    startInput.addEventListener("keydown", function (event) {
+                        event.preventDefault();
+                    });
+                    var endInput = document.getElementById("endingDate");
+
+                    // Disable keyboard input
+                    endInput.addEventListener("keydown", function (event) {
+                        event.preventDefault();
+                    });
+
+
+                </script>
             </form>
         </div>
+        <style>
+            .card {
 
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                transition: 0.3s;
+                width: 40%;
+                align-items: center;
+                padding: 2px 16px;
+                margin: auto;
+                margin-top: 2cm;
+
+            }
+
+            input[type="number"] {
+                width: 300px;
+            }
+        </style>
         <div class="box" id="heading">
             <h1> Update dues </h1>
         </div>

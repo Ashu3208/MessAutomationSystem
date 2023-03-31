@@ -12,25 +12,50 @@
                     <button type="submit" class="remove" name="button" value="<%=orders[i]._id%>">-</button>
                     <div class="item">
                         <p>
-                            <%=orders[i].rollNo%>
+                        <table>
+                            <tr>
+                                <td><b>Roll: </b></td>
+                                <td>
+                                    <%=orders[i].rollNo%>
+                                </td>
+
+                            </tr>
+
+
+
+
+                            <% for (let j=0; j < orders[i].itemName.length; j++) { %>
+
+                                <tr>
+                                    <td><b>Name:</b></td>
+                                    <td>
+                                        <%=orders[i].itemName[j]%>
+                                    </td>
+
+
+                                    <td><b>Price: </b></td>
+                                    <td>₹<%=orders[i].price[j]%>
+                                    </td>
+
+
+                                    <td><b>Quantity:</b></td>
+                                    <td>
+                                        <%=orders[i].quantity[j]%>
+                                    </td>
+
+
+                                </tr>
+
+
+                                <% }%>
+                                    <tr>
+                                        <td><b>Total: </b></td>
+                                        <td>₹<%=orders[i].total%>
+                                        </td>
+
+                                    </tr>
+                        </table>
                         </p>
-
-                        <% for (let j=0; j < orders[i].itemName.length; j++) { %>
-                            <div class="item">
-                                <p>
-                                    <b>Name:</b>
-                                    <%=orders[i].itemName[j]%>
-                                        <b>Price: ₹</b>
-                                        <%=orders[i].price[j]%>
-                                            <b>Quantity:</b>
-                                            <%=orders[i].quantity[j]%>
-                                </p>
-                            </div>
-                            <% }%>
-                                <p><b>Total: ₹</b>
-                                    <%=orders[i].total%>
-                                </p>
-
                     </div>
                 </form>
 

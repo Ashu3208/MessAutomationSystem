@@ -9,6 +9,7 @@ const Bill = require('../models/Bill')
 const User = require('../models/User')
 const Rebate = require('../models/Rebate')
 
+
 // create routes
 //get home
 router.get("/", (req, res) => {
@@ -95,7 +96,13 @@ router.post("/complain", async (req, res) => {
         reply: "pending"
     });
     console.log(req.body);
-    complaint.save()
+    function isWhitespaceString(str) {
+        return /^\s*$/.test(str);
+    }
+    if (!isWhitespaceString(req.body.text)) {
+        await complaint.save()
+    }
+
     res.redirect("/complain")
 
 })
@@ -111,7 +118,7 @@ router.post("/complain/remove", async (req, res) => {
 
 router.get("/rebate", async (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("student/rebate", { rebates: await Rebate.find({ rollNo: req.user.rollNumber }) })
+        res.render("student/rebate", { rebates: await Rebate.find({ rollNo: req.user.rollNumber }), message: "" })
     }
     else {
         res.redirect("/login")
@@ -119,14 +126,29 @@ router.get("/rebate", async (req, res) => {
 })
 
 router.post("/rebate", async (req, res) => {
-    const rebate = new Rebate({
-        rollNo: req.user.rollNumber,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
-        days: req.body.daysNumber,
-        status: "pending"
-    })
-    rebate.save()
+
+    const start_date = req.body.startDate;
+    const end_date = req.body.endDate;
+
+    const date1 = new Date(start_date);
+    const date2 = new Date(end_date);
+    const curr_date = new Date();
+    const startDate = date1.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+    const endDate=date2.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    if (date2.getTime() >= date1.getTime() && date1.getTime() >= curr_date.getTime()) {
+        const diff = Math.abs(date2.getTime() - date1.getTime());
+        const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+        console.log(diffDays);
+        const rebate = new Rebate({
+            rollNo: req.user.rollNumber,
+            startDate: startDate,
+            endDate: endDate,
+            days: diffDays,
+            status: "pending"
+        })
+        rebate.save()
+    }
     res.redirect("/rebate")
 })
 
@@ -160,16 +182,22 @@ router.post("/extras", async (req, res) => {
         }
     }
     await User.findByIdAndUpdate(req.user._id, { $inc: { extrasCost: totalCost } })
-    const order = new Order({
-        rollNo: req.user.rollNumber,
-        itemName: items,
-        quantity: quantities,
-        price: prices,
-        total: totalCost
-    })
-    order.save()
-    console.log(order)
-    res.redirect("/orders")
+    if (items.length != 0) {
+        const order = new Order({
+            rollNo: req.user.rollNumber,
+            itemName: items,
+            quantity: quantities,
+            price: prices,
+            total: totalCost
+        })
+        order.save()
+        console.log(order)
+        res.redirect("/orders")
+
+    } else {
+        res.redirect("/extras")
+    }
+
 })
 
 // All manager get and post requests
@@ -229,7 +257,13 @@ router.get("/manager/complaints", async (req, res) => {
 
 router.post("/manager/complaints", async (req, res) => {
 
-    await Complaint.findByIdAndUpdate(req.body.button, { reply: req.body.reply })
+    function isWhitespaceString(str) {
+        return /^\s*$/.test(str);
+    }
+    if (!isWhitespaceString(req.body.reply)) {
+        await Complaint.findByIdAndUpdate(req.body.button, { reply: req.body.reply })
+    }
+
     res.redirect("/manager/complaints")
 })
 
@@ -255,7 +289,17 @@ router.post("/manager/extras/add", async (req, res) => {
         name: req.body.newItem,
         price: req.body.price
     });
-    extra.save();
+    try {
+        function isWhitespaceString(str) {
+            return /^\s*$/.test(str);
+        }
+        if (!isWhitespaceString(req.body.newItem) && !isWhitespaceString(req.body.price)) {
+            await extra.save();
+        }
+    } catch (err) {
+        console.log(err)
+    }
+
     res.redirect("/manager/extras");
 })
 router.post("/manager/extras/remove", async (req, res) => {
@@ -275,28 +319,47 @@ router.get("/manager/accessAccount", (req, res) => {
 router.post("/manager/accessAccount", async (req, res) => {
 
     const students = await User.find({})
+    const start = req.body.startDate;
+    const end = req.body.endDate;
+    let date_obj = new Date(start);
+    let formattedStart = date_obj.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+    date_obj = new Date(end);
+    let formattedEnd = date_obj.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+    const date1 = (new Date(start)).getTime();
+    const date2 = (new Date(end)).getTime();
+    console.log(formattedStart + formattedEnd);
 
-    for (let i = 0; i < students.length; i++) {
-        let totalCost = 0;
-        totalCost = (req.body.workingDays - students[i].rebateDays) * req.body.dailyCost + students[i].extrasCost;
-        const bill = new Bill({
-            rollNo: students[i].rollNumber,
-            month: req.body.month,
-            year: req.body.year,
-            workingDays: req.body.workingDays,
-            dailyCost: req.body.dailyCost,
-            rebateDays: students[i].rebateDays,
-            extrasCost: students[i].extrasCost,
-            total: totalCost
-        })
-        bill.save()
-        await User.findOneAndUpdate({ rollNumber: bill.rollNo }, { extrasCost: 0, rebateDays: 0, $inc: { dues: totalCost } })
+    if (date2 >= date1) {
+        const workingDays = Math.ceil((Math.abs(date2 - date1)) / (1000 * 3600 * 24));
+        console.log(workingDays);
+        for (let i = 0; i < students.length; i++) {
+            let totalCost = 0;
+
+            totalCost = (workingDays - students[i].rebateDays) * req.body.dailyCost + students[i].extrasCost;
+            const bill = new Bill({
+                rollNo: students[i].rollNumber,
+                startDate: formattedStart,
+                endDate: formattedEnd,
+                workingDays: workingDays,
+                dailyCost: req.body.dailyCost,
+                rebateDays: students[i].rebateDays,
+                extrasCost: students[i].extrasCost,
+                total: totalCost
+            })
+            bill.save()
+            await User.findOneAndUpdate({ rollNumber: bill.rollNo }, { extrasCost: 0, rebateDays: 0, $inc: { dues: totalCost } })
+        }
+
     }
     res.redirect("/manager/accessAccount")
 })
 
 router.post("/manager/accessAccount/update", async (req, res) => {
+    var student = new User();
+    student = User.findOne({ rollNumber: req.body.rollNo })
+
     await User.updateOne({ rollNumber: req.body.rollNo }, { $inc: { dues: - req.body.paid } })
+    await User.updateMany({ dues: { $lt: 0 } }, { dues: 0 })
     res.redirect("/manager/accessAccount")
 })
 

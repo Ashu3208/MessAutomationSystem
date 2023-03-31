@@ -2,8 +2,15 @@ const mongoose = require('mongoose')
 
 const extraSchema = new mongoose.Schema({
     
-    name:String,
-    price:Number
+    name:{
+        type:String,
+        required:true
+    },
+    price:{
+        type:Number,
+        required:true,
+        min:1
+    }
 })
 
 module.exports = mongoose.model('Extra',extraSchema)

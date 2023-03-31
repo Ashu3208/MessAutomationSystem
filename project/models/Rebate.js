@@ -2,9 +2,19 @@ const mongoose =require("mongoose")
 
 const rebateSchema = new mongoose.Schema({
     rollNo:Number,
-    startDate:String,
-    endDate:String,
-    days:Number,
+    startDate:{
+        type:String,
+        required:true
+    },
+    endDate:{
+        type:String,
+        required:true
+    },
+    days:{
+        type:Number,
+        required:true,
+        min:1
+    },
     status:String
 })
 

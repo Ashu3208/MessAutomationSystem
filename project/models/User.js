@@ -5,13 +5,29 @@ const passportLocalMongoose = require('passport-local-mongoose')
 
 // Create User Schema
 const userSchema = new mongoose.Schema({
-    name: String,
-    rollNumber: Number ,
+    name: {
+        type: String,
+        required: true
+    },
+    rollNumber: {
+        type: Number,
+        required: true,
+        unique: true
+    },
     username: String,
     password: String,
-    extrasCost: Number,
-    rebateDays: Number,
-    dues: Number
+    extrasCost: {
+        type: Number,
+        min: 0
+    },
+    rebateDays: {
+        type: Number,
+        min: 0
+    },
+    dues: {
+        type: Number,
+        min: 0
+    }
 })
 
 //hash password using passport-local-mongoose plugin
@@ -19,4 +35,9 @@ userSchema.plugin(passportLocalMongoose)
 
 
 //export User Model
-module.exports = mongoose.model('User', userSchema)
+const Model = mongoose.model('User', userSchema)
+Model.init()
+module.exports = Model
+
+
+
