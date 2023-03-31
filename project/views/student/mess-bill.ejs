@@ -1,75 +1,66 @@
 <%- include("../partials/head") %>
     <%- include("navbar") %>
 
-    <div class="box" id="heading">
-        <h1 style="text-decoration: white;"> Bills </h1>
-    </div>
+        <div class="box" id="heading">
+            <h1> Bills </h1>
+        </div>
 
-    <div class="box">
-        <% for (let i=0; i < bills.length; i++) { %>
-            <form class="item" action="/mess-bill" method="post">
-                <button type="submit" class="remove" name="button" value="<%=bills[i]._id%>">-</button>
-                <p>
-                    
-                    <b>from:&emsp;</b><%=bills[i].startDate%>
-                    <b>&emsp;&emsp;to:&emsp;</b><%=bills[i].endDate%>
-                    <b>&emsp;&emsp;workingDays:&emsp;</b><%=bills[i].workingDays%>
-                    <b>&emsp;&emsp;dailyCost:&emsp;</b><%=bills[i].dailyCost%>
-                    <b>&emsp;&emsp;rebateDays:&emsp;</b><%=bills[i].rebateDays%>
-                    <b>&emsp;&emsp;extrasCost:&emsp;</b><%=bills[i].extrasCost%>
-                    <b>&emsp;&emsp;total:&emsp;</b><%=bills[i].total%>
-                </p>
-                
-            </form>
-            <% }%>
+        <div class="box">
+            <% for (let i=0; i < bills.length; i++) { %>
+                <form action="/mess-bill" method="post">
+                    <div class="item">
+                        <p>
+                            <button type="submit" class="remove" name="button" value="<%=bills[i]._id%>">X</button>
+                        <table>
+                            <tr>
+                                <td><b>From:</b></td>
 
-                
-    </div>
-        <!-- <div class="card">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Mess Bill</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Mess Dues</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Extras</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Total</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div> -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-            crossorigin="anonymous"></script>
-            <style>
-                           .card{
-    
-    /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
-  transition: 0.3s;
-  width: 60%;
-  align-items: center;
-  padding: 2px 16px;
-  margin: auto;
-  margin-top: 2cm;
+                                <td>
+                                    <%=bills[i].startDate%>
+                                </td>
+                                <td><b>To:</b></td>
+                                <td>
+                                    <%=bills[i].endDate%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Working Days:</b></td>
+                                <td>
+                                    <%=bills[i].workingDays%>
+                                </td>
+                            </tr>
 
-}
-            </style>
+                            <tr>
+                                <td><b>Rebate Days:</b></td>
+                                <td>
+                                    <%=bills[i].rebateDays%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Daily Cost:</b></td>
+                                <td>
+                                    ₹<%=bills[i].dailyCost%>/-
+                                </td>
+
+                                <td><b>Extras Cost:</b></td>
+                                <td>
+                                    ₹<%=bills[i].extrasCost%>/-
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Total:</b></td>
+                                <td>
+                                    ₹<%=bills[i].total%>/-
+                                </td>
+                            </tr>
+                        </table>
+                        </p>
+
+
+                    </div>
+                </form>
+                <% }%>
+        </div>
         </body>
 
         </html>

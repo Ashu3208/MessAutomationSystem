@@ -337,7 +337,7 @@ router.post("/manager/accessAccount", async (req, res) => {
 
             if (workingDays >= students[i].rebateDays) {
                 totalCost = (workingDays - students[i].rebateDays) * req.body.dailyCost + students[i].extrasCost;
-            }else{
+            } else {
                 totalCost = students[i].extrasCost;
             }
 
@@ -359,11 +359,11 @@ router.post("/manager/accessAccount", async (req, res) => {
 })
 
 router.post("/manager/accessAccount/update", async (req, res) => {
-    var student = new User();
-    student = User.findOne({ rollNumber: req.body.rollNo })
-
-    await User.updateOne({ rollNumber: req.body.rollNo }, { $inc: { dues: - req.body.paid } })
-    await User.updateMany({ dues: { $lt: 0 } }, { dues: 0 })
+    
+    if (req.body.paid > 0) {
+        await User.updateOne({ rollNumber: req.body.rollNo }, { $inc: { dues: - req.body.paid } })
+        await User.updateMany({ dues: { $lt: 0 } }, { dues: 0 })
+    }
     res.redirect("/manager/accessAccount")
 })
 
