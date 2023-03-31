@@ -134,7 +134,7 @@ router.post("/rebate", async (req, res) => {
     const date2 = new Date(end_date);
     const curr_date = new Date();
     const startDate = date1.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
-    const endDate=date2.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+    const endDate = date2.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
 
     if (date2.getTime() >= date1.getTime() && date1.getTime() >= curr_date.getTime()) {
         const diff = Math.abs(date2.getTime() - date1.getTime());
@@ -335,7 +335,12 @@ router.post("/manager/accessAccount", async (req, res) => {
         for (let i = 0; i < students.length; i++) {
             let totalCost = 0;
 
-            totalCost = (workingDays - students[i].rebateDays) * req.body.dailyCost + students[i].extrasCost;
+            if (workingDays >= students[i].rebateDays) {
+                totalCost = (workingDays - students[i].rebateDays) * req.body.dailyCost + students[i].extrasCost;
+            }else{
+                totalCost = students[i].extrasCost;
+            }
+
             const bill = new Bill({
                 rollNo: students[i].rollNumber,
                 startDate: formattedStart,
@@ -349,7 +354,6 @@ router.post("/manager/accessAccount", async (req, res) => {
             bill.save()
             await User.findOneAndUpdate({ rollNumber: bill.rollNo }, { extrasCost: 0, rebateDays: 0, $inc: { dues: totalCost } })
         }
-
     }
     res.redirect("/manager/accessAccount")
 })
