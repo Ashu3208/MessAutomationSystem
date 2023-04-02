@@ -46,7 +46,12 @@ router.get("/login", (req, res) => {
 router.get("/orders", async (req, res) => {
 
     if (req.isAuthenticated()) {
-        res.render("student/order", { orders: await Order.find({ rollNo: req.user.rollNumber }) })
+        if (process.env.SUPERUSER === 'true') {
+            res.redirect("/")
+        } else {
+            res.render("student/order", { orders: await Order.find({ rollNo: req.user.rollNumber }) })
+        }
+
     }
     else {
         res.redirect("/login")
@@ -56,7 +61,11 @@ router.get("/orders", async (req, res) => {
 // Mess menu page
 router.get("/mess-menu", (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("student/mess-menu")
+        if (process.env.SUPERUSER === 'true') {
+            res.redirect("/")
+        } else {
+            res.render("student/mess-menu")
+        }
     }
     else {
         res.redirect("/login")
@@ -65,7 +74,12 @@ router.get("/mess-menu", (req, res) => {
 
 router.get("/mess-bill", async (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("student/mess-bill", { bills: await Bill.find({ rollNo: req.user.rollNumber }) })
+        if (process.env.SUPERUSER === 'true') {
+            res.redirect("/")
+        } else {
+            res.render("student/mess-bill", { bills: await Bill.find({ rollNo: req.user.rollNumber }) })
+        }
+
     }
     else {
         res.redirect("/login")
@@ -81,7 +95,12 @@ router.post("/mess-bill", async (req, res) => {
 
 router.get("/complain", async (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("student/complain", { complaints: await Complaint.find({ rollNo: req.user.rollNumber }) })
+        if (process.env.SUPERUSER === 'true') {
+            res.redirect("/")
+        } else {
+            res.render("student/complain", { complaints: await Complaint.find({ rollNo: req.user.rollNumber }) })
+        }
+
     }
     else {
         res.redirect("/login")
@@ -118,7 +137,12 @@ router.post("/complain/remove", async (req, res) => {
 
 router.get("/rebate", async (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("student/rebate", { rebates: await Rebate.find({ rollNo: req.user.rollNumber }), message: "" })
+        if (process.env.SUPERUSER === 'true') {
+            res.redirect("/")
+        } else {
+            res.render("student/rebate", { rebates: await Rebate.find({ rollNo: req.user.rollNumber }), message: "" })
+        }
+
     }
     else {
         res.redirect("/login")
@@ -160,7 +184,12 @@ router.post("/rebate/remove", async (req, res) => {
 
 router.get("/extras", async (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("student/extras", { extrasMenu: await Extra.find({}) })
+        if (process.env.SUPERUSER === 'true') {
+            res.redirect("/")
+        } else {
+            res.render("student/extras", { extrasMenu: await Extra.find({}) })
+        }
+
     }
     else {
         res.redirect("/login")
@@ -203,7 +232,12 @@ router.post("/extras", async (req, res) => {
 // All manager get and post requests
 router.get("/manager/home", (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("manager/home")
+        if (process.env.SUPERUSER === 'true') {
+            res.render("manager/home")
+        } else {
+            res.redirect("/")
+        }
+
     }
     else {
         res.redirect("/login")
@@ -213,7 +247,12 @@ router.get("/manager/home", (req, res) => {
 router.get("/manager/order", async (req, res) => {
 
     if (req.isAuthenticated()) {
-        res.render("manager/order", { orders: await Order.find({}) })
+        
+        if (process.env.SUPERUSER === 'true') {
+            res.render("manager/order", { orders: await Order.find({}) })
+        } else {
+            res.redirect("/")
+        }
     }
     else {
         res.redirect("/login")
@@ -229,7 +268,12 @@ router.post("/manager/order", async (req, res) => {
 
 router.get("/manager/rebateApproval", async (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("manager/rebateApproval.ejs", { rebates: await Rebate.find({ status: "pending" }) })
+        
+        if (process.env.SUPERUSER === 'true') {
+            res.render("manager/rebateApproval.ejs", { rebates: await Rebate.find({ status: "pending" }) })
+        } else {
+            res.redirect("/")
+        }
     }
     else {
         res.redirect("/login")
@@ -248,7 +292,12 @@ router.post("/manager/rebateApproval/rejected", async (req, res) => {
 })
 router.get("/manager/complaints", async (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("manager/complaints", { complaints: await Complaint.find({ reply: "pending" }) })
+        if (process.env.SUPERUSER === 'true') {
+            res.render("manager/complaints", { complaints: await Complaint.find({ reply: "pending" }) })
+        } else {
+            res.redirect("/")
+        }
+        
     }
     else {
         res.redirect("/login")
@@ -269,7 +318,12 @@ router.post("/manager/complaints", async (req, res) => {
 
 router.get("/manager/messMenu", (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("manager/messMenu")
+        if (process.env.SUPERUSER === 'true') {
+            res.render("manager/messMenu")
+        } else {
+            res.redirect("/")
+        }
+        
     }
     else {
         res.redirect("/login")
@@ -277,7 +331,12 @@ router.get("/manager/messMenu", (req, res) => {
 })
 router.get("/manager/extras", async (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("manager/extras", { extrasMenu: await Extra.find({}) })
+        
+        if (process.env.SUPERUSER === 'true') {
+            res.render("manager/extras", { extrasMenu: await Extra.find({}) })
+        } else {
+            res.redirect("/")
+        }
     }
     else {
         res.redirect("/login")
@@ -309,7 +368,12 @@ router.post("/manager/extras/remove", async (req, res) => {
 })
 router.get("/manager/accessAccount", (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("manager/accessAccount")
+        
+        if (process.env.SUPERUSER === 'true') {
+            res.render("manager/accessAccount")
+        } else {
+            res.redirect("/")
+        }
     }
     else {
         res.redirect("/login")
@@ -359,7 +423,7 @@ router.post("/manager/accessAccount", async (req, res) => {
 })
 
 router.post("/manager/accessAccount/update", async (req, res) => {
-    
+
     if (req.body.paid > 0) {
         await User.updateOne({ rollNumber: req.body.rollNo }, { $inc: { dues: - req.body.paid } })
         await User.updateMany({ dues: { $lt: 0 } }, { dues: 0 })
