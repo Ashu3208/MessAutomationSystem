@@ -7,6 +7,7 @@ const mongoose = require("mongoose")
 const Complaint = require('../models/Complaint')
 const Bill = require('../models/Bill')
 const User = require('../models/User')
+const Item = require('../models/Item')
 const Rebate = require('../models/Rebate')
 
 
@@ -59,12 +60,12 @@ router.get("/orders", async (req, res) => {
 })
 
 // Mess menu page
-router.get("/mess-menu", (req, res) => {
+router.get("/mess-menu", async (req, res) => {
     if (req.isAuthenticated()) {
         if (process.env.SUPERUSER === 'true') {
             res.redirect("/")
         } else {
-            res.render("student/mess-menu")
+            res.render("student/mess-menu", { mob: await Item.find({ code: "110" }), mobe: await Item.find({ code: "111" }), mol: await Item.find({ code: "120" }), mole: await Item.find({ code: "121" }), mod: await Item.find({ code: "130" }), mode: await Item.find({ code: "131" }), tub: await Item.find({ code: "210" }), tube: await Item.find({ code: "211" }), tul: await Item.find({ code: "220" }), tule: await Item.find({ code: "221" }), tud: await Item.find({ code: "230" }), tude: await Item.find({ code: "231" }), web: await Item.find({ code: "310" }), webe: await Item.find({ code: "311" }), wel: await Item.find({ code: "320" }), wele: await Item.find({ code: "321" }), wed: await Item.find({ code: "330" }), wede: await Item.find({ code: "331" }), thb: await Item.find({ code: "410" }), thbe: await Item.find({ code: "411" }), thl: await Item.find({ code: "420" }), thle: await Item.find({ code: "421" }), thd: await Item.find({ code: "430" }), thde: await Item.find({ code: "431" }), frb: await Item.find({ code: "510" }), frbe: await Item.find({ code: "511" }), frl: await Item.find({ code: "520" }), frle: await Item.find({ code: "521" }), frd: await Item.find({ code: "530" }), frde: await Item.find({ code: "531" }), sab: await Item.find({ code: "610" }), sabe: await Item.find({ code: "611" }), sal: await Item.find({ code: "620" }), sale: await Item.find({ code: "621" }), sad: await Item.find({ code: "630" }), sade: await Item.find({ code: "631" }), sub: await Item.find({ code: "710" }), sube: await Item.find({ code: "711" }), sul: await Item.find({ code: "720" }), sule: await Item.find({ code: "721" }), sud: await Item.find({ code: "730" }), sude: await Item.find({ code: "731" }) })
         }
     }
     else {
@@ -247,7 +248,7 @@ router.get("/manager/home", (req, res) => {
 router.get("/manager/order", async (req, res) => {
 
     if (req.isAuthenticated()) {
-        
+
         if (process.env.SUPERUSER === 'true') {
             res.render("manager/order", { orders: await Order.find({}) })
         } else {
@@ -268,7 +269,7 @@ router.post("/manager/order", async (req, res) => {
 
 router.get("/manager/rebateApproval", async (req, res) => {
     if (req.isAuthenticated()) {
-        
+
         if (process.env.SUPERUSER === 'true') {
             res.render("manager/rebateApproval.ejs", { rebates: await Rebate.find({ status: "pending" }) })
         } else {
@@ -297,7 +298,7 @@ router.get("/manager/complaints", async (req, res) => {
         } else {
             res.redirect("/")
         }
-        
+
     }
     else {
         res.redirect("/login")
@@ -316,22 +317,48 @@ router.post("/manager/complaints", async (req, res) => {
     res.redirect("/manager/complaints")
 })
 
-router.get("/manager/messMenu", (req, res) => {
+router.get("/manager/messMenu", async (req, res) => {
     if (req.isAuthenticated()) {
         if (process.env.SUPERUSER === 'true') {
-            res.render("manager/messMenu")
+            res.render("manager/messMenu", { mob: await Item.find({ code: "110" }), mobe: await Item.find({ code: "111" }), mol: await Item.find({ code: "120" }), mole: await Item.find({ code: "121" }), mod: await Item.find({ code: "130" }), mode: await Item.find({ code: "131" }), tub: await Item.find({ code: "210" }), tube: await Item.find({ code: "211" }), tul: await Item.find({ code: "220" }), tule: await Item.find({ code: "221" }), tud: await Item.find({ code: "230" }), tude: await Item.find({ code: "231" }), web: await Item.find({ code: "310" }), webe: await Item.find({ code: "311" }), wel: await Item.find({ code: "320" }), wele: await Item.find({ code: "321" }), wed: await Item.find({ code: "330" }), wede: await Item.find({ code: "331" }), thb: await Item.find({ code: "410" }), thbe: await Item.find({ code: "411" }), thl: await Item.find({ code: "420" }), thle: await Item.find({ code: "421" }), thd: await Item.find({ code: "430" }), thde: await Item.find({ code: "431" }), frb: await Item.find({ code: "510" }), frbe: await Item.find({ code: "511" }), frl: await Item.find({ code: "520" }), frle: await Item.find({ code: "521" }), frd: await Item.find({ code: "530" }), frde: await Item.find({ code: "531" }), sab: await Item.find({ code: "610" }), sabe: await Item.find({ code: "611" }), sal: await Item.find({ code: "620" }), sale: await Item.find({ code: "621" }), sad: await Item.find({ code: "630" }), sade: await Item.find({ code: "631" }), sub: await Item.find({ code: "710" }), sube: await Item.find({ code: "711" }), sul: await Item.find({ code: "720" }), sule: await Item.find({ code: "721" }), sud: await Item.find({ code: "730" }), sude: await Item.find({ code: "731" }) })
         } else {
             res.redirect("/")
         }
-        
+
     }
     else {
         res.redirect("/login")
     }
 })
+
+router.post("/manager/messMenu/add", async (req, res) => {
+    const item = new Item({
+        name: req.body.name,
+        code: req.body.code
+    });
+    try {
+        function isWhitespaceString(str) {
+            return /^\s*$/.test(str);
+        }
+        if (!isWhitespaceString(req.body.name)) {
+            await item.save();
+        }
+    } catch (err) {
+        console.log(err)
+    }
+    res.redirect("/manager/messMenu");
+})
+
+router.post("/manager/messMenu/remove", async (req, res) => {
+
+    await Item.findByIdAndRemove(req.body.button)
+    res.redirect("/manager/messMenu");
+})
+
+
 router.get("/manager/extras", async (req, res) => {
     if (req.isAuthenticated()) {
-        
+
         if (process.env.SUPERUSER === 'true') {
             res.render("manager/extras", { extrasMenu: await Extra.find({}) })
         } else {
@@ -363,12 +390,12 @@ router.post("/manager/extras/add", async (req, res) => {
 })
 router.post("/manager/extras/remove", async (req, res) => {
 
-    await Extra.findOneAndDelete({ name: req.body.button })
+    await Extra.findByIdAndRemove(req.body.button)
     res.redirect("/manager/extras");
 })
 router.get("/manager/accessAccount", (req, res) => {
     if (req.isAuthenticated()) {
-        
+
         if (process.env.SUPERUSER === 'true') {
             res.render("manager/accessAccount")
         } else {

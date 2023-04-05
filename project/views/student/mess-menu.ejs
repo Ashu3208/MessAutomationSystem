@@ -8,19 +8,14 @@
         font-family: 'Poppins', sans-serif;
       }
 
-      button.top {
-        height: 29px;
-        align-items: center;
-        width: 66px;
-      }
 
       .column {
-        float: left;
-        width: 25%;
+        float: center;
+        width: 33.33%;
         padding: 0 10px;
       }
 
-      
+
 
       /* Remove extra left and right margins, due to padding in columns */
       .row {
@@ -62,6 +57,7 @@
       }
 
       .container {
+        margin: auto;
         width: 1500px;
         background-color: white;
         padding: 30px;
@@ -105,7 +101,7 @@
       }
 
       .tab_box .tab_btn.active {
-        color: #7360ff;
+        color: dodgerblue;
       }
 
 
@@ -119,7 +115,7 @@
 
     <body>
 
-      <h1 style="text-align: center;">Mess-Menu</h1>
+      <h2 style="text-align: center;color:#fff">Mess-Menu</h2>
       <div class="container">
         <div class="tab_box">
           <button class="tab_btn">Monday</button>
@@ -133,7 +129,6 @@
         </div>
         <div></div>
         <div class="content_box">
-
           <div class="content">
             <h2>Monday Menu</h2>
             <div class="row">
@@ -142,490 +137,597 @@
                   <h3>
                     Breakfast
                   </h3>
+                  <h4 class="card-title">Regular:</h4>
+                  <% for (let i=0; i < mob.length; i++) { %>
 
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Egg</h4>
-                  <h4 class="card-title" style="text-align: left">Bread</h4>
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Sharbat</h4>
-                  <h4 class="card-title" style="text-align: left">Tea</h4>
-                  <h4 class="card-title" style="text-align: left">Pav Bhaji</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                    <h4 class="card-title" >
+                      <%=mob[i].name%>
+                    </h4>
 
+                    <% }%>
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < mobe.length; i++) { %>
+
+                        <h4 class="card-title" >
+                          <%=mobe[i].name%>
+                        </h4>
+                        <% }%>
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Lunch</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">Regular:</h4>
+                  <% for (let i=0; i < mol.length; i++) { %>
+                    <h4 class="card-title" >
+                      <%=mol[i].name%>
+                    </h4>
+                    <% }%>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Sambhar</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">White Chholey</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < mole.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=mole[i].name%>
+                        </h4>
+
+                        <% }%>
+
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Dinner</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">Regular:</h4>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">Dal Makhni</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Shimla</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Tomato</h4>
-                  <h4 class="card-title" style="text-align: left">Jeera Rice</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                  <% for (let i=0; i < mod.length; i++) { %>
+                    <h4 class="card-title" >
+
+                      <%=mod[i].name%>
+                    </h4>
+
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < mode.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=mode[i].name%>
+                        </h4>
+                        <% }%>
+
                 </div>
               </div>
-              <div class="column">
-                <div class="menuCard">
-                  <h3>Extras</h3>
-                  <h4 class="card-title" style="text-align: left">Lunch: </h4>
 
-                  <h4 class="card-title" style="text-align: left">Fish curry</h4>
-                  <h4 class="card-title" style="text-align: left">Malai Laddu</h4>
-                  <h4 class="card-title" style="text-align: left">Dinner:</h4>
-                  <h4 class="card-title" style="text-align: left">Afghani Chicken</h4>
-                  <h4 class="card-title" style="text-align: left">Gajar Halwa</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
-                </div>
-              </div>
             </div>
 
           </div>
           <div class="content">
             <h2>Tuesday Menu</h2>
+
             <div class="row">
               <div class="column">
                 <div class="menuCard">
                   <h3>
                     Breakfast
                   </h3>
+                  <h4 class="card-title">Regular:</h4>
+                  <% for (let i=0; i < tub.length; i++) { %>
+                    <h4 class="card-title" >
 
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Egg</h4>
-                  <h4 class="card-title" style="text-align: left">Bread</h4>
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Sharbat</h4>
-                  <h4 class="card-title" style="text-align: left">Tea</h4>
-                  <h4 class="card-title" style="text-align: left">Pav Bhaji</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                      <%=tub[i].name%>
+                    </h4>
+
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < tube.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=tube[i].name%>
+                        </h4>
+
+                        <% }%>
 
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Lunch</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">Regular:</h4>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Sambhar</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">White Chholey</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
+                  <% for (let i=0; i < tul.length; i++) { %>
+                    <h4 class="card-title" >
+
+                      <%=tul[i].name%>
+
+                    </h4>
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < tule.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=tule[i].name%>
+                        </h4>
+
+                        <% }%>
+
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Dinner</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">Regular:</h4>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">Dal Makhni</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Shimla</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Tomato</h4>
-                  <h4 class="card-title" style="text-align: left">Jeera Rice</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                  <% for (let i=0; i < tud.length; i++) { %>
+                    <h4 class="card-title" >
+
+                      <%=tud[i].name%>
+                    </h4>
+
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < tude.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=tude[i].name%>
+                        </h4>
+
+                        <% }%>
+
                 </div>
               </div>
-              <div class="column">
-                <div class="menuCard">
-                  <h3>Extras</h3>
-                  <h4 class="card-title" style="text-align: left">Lunch: </h4>
 
-                  <h4 class="card-title" style="text-align: left">Fish curry</h4>
-                  <h4 class="card-title" style="text-align: left">Malai Laddu</h4>
-                  <h4 class="card-title" style="text-align: left">Dinner:</h4>
-                  <h4 class="card-title" style="text-align: left">Afghani Chicken</h4>
-                  <h4 class="card-title" style="text-align: left">Gajar Halwa</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
-                </div>
-              </div>
             </div>
+
 
           </div>
           <div class="content">
             <h2>Wednesday Menu</h2>
+
             <div class="row">
               <div class="column">
                 <div class="menuCard">
                   <h3>
                     Breakfast
                   </h3>
+                  <h4 class="card-title">Regular:</h4>
+                  <% for (let i=0; i < web.length; i++) { %>
+                    <h4 class="card-title" >
 
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Egg</h4>
-                  <h4 class="card-title" style="text-align: left">Bread</h4>
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Sharbat</h4>
-                  <h4 class="card-title" style="text-align: left">Tea</h4>
-                  <h4 class="card-title" style="text-align: left">Pav Bhaji</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                      <%=web[i].name%>
+                    </h4>
+
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < webe.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=webe[i].name%>
+                        </h4>
+
+                        <% }%>
 
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Lunch</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">Regular:</h4>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Sambhar</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">White Chholey</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
+                  <% for (let i=0; i < wel.length; i++) { %>
+                    <h4 class="card-title" >
+                      <%=wel[i].name%>
+                    </h4>
+
+
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < wele.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=wele[i].name%>
+                        </h4>
+
+                        <% }%>
+
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Dinner</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">Regular:</h4>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">Dal Makhni</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Shimla</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Tomato</h4>
-                  <h4 class="card-title" style="text-align: left">Jeera Rice</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                  <% for (let i=0; i < wed.length; i++) { %>
+                    <h4 class="card-title" >
+
+                      <%=wed[i].name%>
+                    </h4>
+
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < wede.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=wede[i].name%>
+                        </h4>
+
+                        <% }%>
+
                 </div>
               </div>
-              <div class="column">
-                <div class="menuCard">
-                  <h3>Extras</h3>
-                  <h4 class="card-title" style="text-align: left">Lunch: </h4>
 
-                  <h4 class="card-title" style="text-align: left">Fish curry</h4>
-                  <h4 class="card-title" style="text-align: left">Malai Laddu</h4>
-                  <h4 class="card-title" style="text-align: left">Dinner:</h4>
-                  <h4 class="card-title" style="text-align: left">Afghani Chicken</h4>
-                  <h4 class="card-title" style="text-align: left">Gajar Halwa</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
-                </div>
-              </div>
             </div>
+
 
           </div>
           <div class="content">
             <h2>Thursday Menu</h2>
+
             <div class="row">
               <div class="column">
                 <div class="menuCard">
                   <h3>
                     Breakfast
                   </h3>
+                  <h4 class="card-title">Regular:</h4>
+                  <% for (let i=0; i < thb.length; i++) { %>
+                    <h4 class="card-title" >
 
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Egg</h4>
-                  <h4 class="card-title" style="text-align: left">Bread</h4>
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Sharbat</h4>
-                  <h4 class="card-title" style="text-align: left">Tea</h4>
-                  <h4 class="card-title" style="text-align: left">Pav Bhaji</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                      <%=thb[i].name%>
+                    </h4>
+
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < thbe.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=thbe[i].name%>
+
+                        </h4>
+                        <% }%>
 
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Lunch</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">Regular:</h4>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Sambhar</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">White Chholey</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
+                  <% for (let i=0; i < thl.length; i++) { %>
+                    <h4 class="card-title" >
+
+                      <%=thl[i].name%>
+                    </h4>
+
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < thle.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=thle[i].name%>
+
+                        </h4>
+                        <% }%>
+
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Dinner</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">Regular:</h4>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">Dal Makhni</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Shimla</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Tomato</h4>
-                  <h4 class="card-title" style="text-align: left">Jeera Rice</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                  <% for (let i=0; i < thd.length; i++) { %>
+                    <h4 class="card-title" >
+
+                      <%=thd[i].name%>
+
+                    </h4>
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < thde.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=thde[i].name%>
+                        </h4>
+
+                        <% }%>
+
                 </div>
               </div>
-              <div class="column">
-                <div class="menuCard">
-                  <h3>Extras</h3>
-                  <h4 class="card-title" style="text-align: left">Lunch: </h4>
 
-                  <h4 class="card-title" style="text-align: left">Fish curry</h4>
-                  <h4 class="card-title" style="text-align: left">Malai Laddu</h4>
-                  <h4 class="card-title" style="text-align: left">Dinner:</h4>
-                  <h4 class="card-title" style="text-align: left">Afghani Chicken</h4>
-                  <h4 class="card-title" style="text-align: left">Gajar Halwa</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
-                </div>
-              </div>
             </div>
+
 
           </div>
           <div class="content">
             <h2>Friday Menu</h2>
+
             <div class="row">
               <div class="column">
                 <div class="menuCard">
                   <h3>
                     Breakfast
                   </h3>
+                  <h4 class="card-title">Regular:</h4>
+                  <% for (let i=0; i < frb.length; i++) { %>
+                    <h4 class="card-title" >
 
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Egg</h4>
-                  <h4 class="card-title" style="text-align: left">Bread</h4>
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Sharbat</h4>
-                  <h4 class="card-title" style="text-align: left">Tea</h4>
-                  <h4 class="card-title" style="text-align: left">Pav Bhaji</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                      <%=frb[i].name%>
+
+                    </h4>
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < frbe.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=frbe[i].name%>
+                        </h4>
+
+                        <% }%>
 
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Lunch</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">Regular:</h4>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Sambhar</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">White Chholey</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
+                  <% for (let i=0; i < frl.length; i++) { %>
+                    <h4 class="card-title" >
+
+                      <%=frl[i].name%>
+
+                    </h4>
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < frle.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=frle[i].name%>
+                        </h4>
+
+                        <% }%>
+
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Dinner</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">Regular:</h4>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">Dal Makhni</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Shimla</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Tomato</h4>
-                  <h4 class="card-title" style="text-align: left">Jeera Rice</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                  <% for (let i=0; i < frd.length; i++) { %>
+                    <h4 class="card-title" >
+
+                      <%=frd[i].name%>
+
+                    </h4>
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < frde.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=frde[i].name%>
+                        </h4>
+
+                        <% }%>
+
                 </div>
               </div>
-              <div class="column">
-                <div class="menuCard">
-                  <h3>Extras</h3>
-                  <h4 class="card-title" style="text-align: left">Lunch: </h4>
 
-                  <h4 class="card-title" style="text-align: left">Fish curry</h4>
-                  <h4 class="card-title" style="text-align: left">Malai Laddu</h4>
-                  <h4 class="card-title" style="text-align: left">Dinner:</h4>
-                  <h4 class="card-title" style="text-align: left">Afghani Chicken</h4>
-                  <h4 class="card-title" style="text-align: left">Gajar Halwa</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
-                </div>
-              </div>
             </div>
+
 
           </div>
           <div class="content">
             <h2>Saturday Menu</h2>
+
             <div class="row">
               <div class="column">
                 <div class="menuCard">
                   <h3>
                     Breakfast
                   </h3>
+                  <h4 class="card-title">Regular:</h4>
+                  <% for (let i=0; i < sab.length; i++) { %>
+                    <h4 class="card-title" >
 
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Egg</h4>
-                  <h4 class="card-title" style="text-align: left">Bread</h4>
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Sharbat</h4>
-                  <h4 class="card-title" style="text-align: left">Tea</h4>
-                  <h4 class="card-title" style="text-align: left">Pav Bhaji</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                      <%=sab[i].name%>
+                    </h4>
+
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < sabe.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=sabe[i].name%>
+                        </h4>
+
+                        <% }%>
 
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Lunch</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">Regular:</h4>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Sambhar</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">White Chholey</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
+                  <% for (let i=0; i < sal.length; i++) { %>
+                    <h4 class="card-title" >
+
+                      <%=sal[i].name%>
+
+                    </h4>
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < sale.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=sale[i].name%>
+                        </h4>
+
+                        <% }%>
+
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Dinner</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">Regular:
+                  </h4>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">Dal Makhni</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Shimla</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Tomato</h4>
-                  <h4 class="card-title" style="text-align: left">Jeera Rice</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                  <% for (let i=0; i < sad.length; i++) { %>
+                    <h4 class="card-title" >
+
+                      <%=sad[i].name%>
+
+                    </h4>
+                    <% }%>
+
+                      <h4 class="card-title">Extras:</h4>
+                      <% for (let i=0; i < sade.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=sade[i].name%>
+                        </h4>
+
+                        <% }%>
+
                 </div>
               </div>
-              <div class="column">
-                <div class="menuCard">
-                  <h3>Extras</h3>
-                  <h4 class="card-title" style="text-align: left">Lunch: </h4>
 
-                  <h4 class="card-title" style="text-align: left">Fish curry</h4>
-                  <h4 class="card-title" style="text-align: left">Malai Laddu</h4>
-                  <h4 class="card-title" style="text-align: left">Dinner:</h4>
-                  <h4 class="card-title" style="text-align: left">Afghani Chicken</h4>
-                  <h4 class="card-title" style="text-align: left">Gajar Halwa</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
-                </div>
-              </div>
             </div>
+
 
           </div>
           <div class="content">
             <h2>Sunday Menu</h2>
+
             <div class="row">
               <div class="column">
                 <div class="menuCard">
                   <h3>
                     Breakfast
                   </h3>
+                  <h4 class="card-title">
+                    Regular:</h4>
+                  <% for (let i=0; i < sub.length; i++) { %>
+                    <h4 class="card-title" >
 
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Egg</h4>
-                  <h4 class="card-title" style="text-align: left">Bread</h4>
-                  <h4 class="card-title" style="text-align: left">Milk</h4>
-                  <h4 class="card-title" style="text-align: left">Sharbat</h4>
-                  <h4 class="card-title" style="text-align: left">Tea</h4>
-                  <h4 class="card-title" style="text-align: left">Pav Bhaji</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                      <%=sub[i].name%>
+                    </h4>
+
+
+                    <% }%>
+
+                      <h4 class="card-title">Extras:
+                      </h4>
+                      <% for (let i=0; i < sube.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=sube[i].name%>
+                        </h4>
+
+
+                        <% }%>
 
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Lunch</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
+                  <h4 class="card-title">
+                    Regular:</h4>
 
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Sambhar</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">White Chholey</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
+                  <% for (let i=0; i < sul.length; i++) { %>
+                    <h4 class="card-title" >
+
+                      <%=sul[i].name%>
+                    </h4>
+
+
+                    <% }%>
+
+                      <h4 class="card-title">
+                        Extras:</h4>
+                      <% for (let i=0; i < sule.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=sule[i].name%>
+                        </h4>
+
+
+                        <% }%>
+
                 </div>
               </div>
               <div class="column">
                 <div class="menuCard">
                   <h3>Dinner</h3>
-                  <h4 class="card-title" style="text-align: left">Boiled Rice</h4>
-                  <h4 class="card-title" style="text-align: left">Chapati</h4>
-                  <h4 class="card-title" style="text-align: left">Pickle</h4>
-                  <h4 class="card-title" style="text-align: left">Salad</h4>
-                  <h4 class="card-title" style="text-align: left">Dal Makhni</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Shimla</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Tomato</h4>
-                  <h4 class="card-title" style="text-align: left">Jeera Rice</h4>
-                  <h4 class="card-title" style="text-align: left"></h4>
+                  <h4 class="card-title">
+                    Regular:</h4>
+                  <% for (let i=0; i < sud.length; i++) { %>
+                    <h4 class="card-title" >
+
+                      <%=sud[i].name%>
+                    </h4>
+
+                    <% }%>
+
+
+
+                      <h4 class="card-title">
+                        Extras:</h4>
+                      <% for (let i=0; i < sude.length; i++) { %>
+                        <h4 class="card-title" >
+
+                          <%=sude[i].name%>
+                        </h4>
+
+
+
+
+                        <% }%>
                 </div>
-              </div>
-              <div class="column">
-                <div class="menuCard">
-                  <h3>Extras</h3>
-                  <h4 class="card-title" style="text-align: left">Lunch: </h4>
-                  <h4 class="card-title" style="text-align: left">Fish curry</h4>
-                  <h4 class="card-title" style="text-align: left">Malai Laddu</h4>
-                  <h4 class="card-title" style="text-align: left">Dinner:</h4>
-                  <h4 class="card-title" style="text-align: left">Afghani Chicken</h4>
-                  <h4 class="card-title" style="text-align: left">Gajar Halwa</h4>
-                  <h4 class="card-title" style="text-align: left">Stuffed Paratha</h4>
-                  <h4 class="card-title" style="text-align: left">Fryums chips</h4>
-                  <h4 class="card-title" style="text-align: left">Boondi Raita</h4>
-                </div>
+
+
               </div>
             </div>
 
           </div>
+
+
         </div>
-      </div>
 
-      <script>
-        const tabs = document.querySelectorAll('.tab_btn');
-        const all_content = document.querySelectorAll('.content');
-        tabs.forEach((tab, index) => {
-          tab.addEventListener('click', () => {
-            tabs.forEach(tab => { tab.classList.remove('active') });
-            tab.classList.add('active');
 
-            all_content.forEach(context => { context.classList.remove('active') })
-            all_content[index].classList.add('active');
+        <script>
+          const tabs = document.querySelectorAll('.tab_btn');
+          const all_content = document.querySelectorAll('.content');
+          tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+              tabs.forEach(tab => { tab.classList.remove('active') });
+              tab.classList.add('active');
+
+              all_content.forEach(context => { context.classList.remove('active') })
+              all_content[index].classList.add('active');
+            })
+
+
           })
-
-
-        })
-      </script>
+        </script>
 
     </body>
 

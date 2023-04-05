@@ -1,7 +1,6 @@
-
-
 * {
   box-sizing: border-box;
+  
 }
 
 body {
@@ -130,13 +129,13 @@ button.buy {
   margin-left: 300px;
   border-radius: 10px;
   background-color: #fff;
-  color:green;
+  color: green;
   font-size: 17px;
   padding-bottom: 6px;
   border-width: 0;
 }
 
-button#complain{
+button#complain {
   float: right;
 }
 
@@ -149,6 +148,17 @@ input[type="text"] {
   font-size: 20px;
   font-weight: 200;
   width: 313px;
+}
+
+input[type="text"].messMenu {
+  text-align: center;
+  height: 60px;
+  top: 10px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  font-weight: 200;
+  width: 80%;
 }
 
 input[type="text"].reply {
@@ -174,6 +184,7 @@ input[type="number"] {
   width: 50px;
   text-align: end;
 }
+
 input[type="number"].duePaid {
   width: 300px;
 }
@@ -213,10 +224,6 @@ td {
   padding: 10px;
   align-items: center;
   margin-left: 25px;
-}
-
-.grid-item:nth-child(even) {
-  background-color: white;
 }
 
 .grid-item:nth-child(1) {
