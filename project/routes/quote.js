@@ -332,10 +332,15 @@ router.get("/manager/messMenu", async (req, res) => {
 })
 
 router.post("/manager/messMenu/add", async (req, res) => {
+    const existingItem = await Item.findOne({ name: req.body.name });
+    if (existingItem) {
+        return res.send('<script>alert("Item already exists"), window.location.href = "/manager/messMenu";</script>');
+    } else {
     const item = new Item({
         name: req.body.name,
         code: req.body.code
     });
+    
     try {
         function isWhitespaceString(str) {
             return /^\s*$/.test(str);
@@ -345,7 +350,7 @@ router.post("/manager/messMenu/add", async (req, res) => {
         }
     } catch (err) {
         console.log(err)
-    }
+    }}
     res.redirect("/manager/messMenu");
 })
 
