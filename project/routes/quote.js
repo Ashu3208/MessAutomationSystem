@@ -234,7 +234,7 @@ router.post("/extras", async (req, res) => {
 router.get("/manager/home", (req, res) => {
     if (req.isAuthenticated()) {
         if (process.env.SUPERUSER === 'true') {
-            res.render("manager/home")
+            res.redirect("/manager/order")
         } else {
             res.redirect("/")
         }
