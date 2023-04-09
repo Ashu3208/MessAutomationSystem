@@ -162,7 +162,7 @@ router.post("/rebate", async (req, res) => {
     const endDate = date2.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
 
     if (date2.getTime() >= date1.getTime() && date1.getTime() >= curr_date.getTime()) {
-        const diff = Math.abs(date2.getTime() - date1.getTime());
+        const diff = Math.abs(date2.getTime() - date1.getTime())+1;
         const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
         console.log(diffDays);
         const rebate = new Rebate({
