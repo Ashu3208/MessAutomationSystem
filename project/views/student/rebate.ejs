@@ -14,14 +14,17 @@
                     <button type="submit" class="btn btn-primary mt-3">Submit</button>
                 </div>
                 <script>
-                    var startInput = document.getElementById("startingDate");
-
+                     var startInput = document.getElementById("startingDate");
+                    const today = new Date();
+        
                     // Disable keyboard input
+                    startInput.min = today.toISOString().split("T")[0];
+                    endInput.min = today.toISOString().split("T")[0];
                     startInput.addEventListener("keydown", function (event) {
                         event.preventDefault();
                     });
                     var endInput = document.getElementById("endingDate");
-
+                    
                     // Disable keyboard input
                     endInput.addEventListener("keydown", function (event) {
                         event.preventDefault();
