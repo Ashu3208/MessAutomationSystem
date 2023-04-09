@@ -42,9 +42,9 @@ router.post("/auth/register", async (req, res) => {
                     console.log('Valid email');
                     const registerUser = await User.register({ name: req.body.name, rollNumber: req.body.rollNumber, username: req.body.username, extrasCost: 0, rebateDays: 0, dues: 0 }, req.body.password);
                     if (registerUser) {
-                        passport.authenticate("local")(req, res, function () {
+//                         passport.authenticate("local")(req, res, function () {
                             res.redirect("/login")
-                        })
+//                         })
                     } else {
                         res.redirect("/register")
                     }
