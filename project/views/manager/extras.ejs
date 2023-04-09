@@ -2,12 +2,19 @@
 <title>Extras</title>
 <%- include("../partials/head2") %>
     <%- include("navbar") %>
+    <style>
+       .extras{
+        max-width: fit-content;
+        margin: 50px auto;
+       }
 
+    </style>
         <div class="box" id="heading">
             <h1> Extras </h1>
         </div>
+        <div class="extras">
         <form action="/manager/extras/remove" method="post">
-            <div class="box">
+            
                 <div class="mb-3">
                     <div class="table-grid">
                         <% for (let i=0; i < extrasMenu.length; i++) { %>
@@ -24,13 +31,15 @@
                             </div>
                             <% }%>
                     </div>
-                </div>
+               
         </form>
+      
         <form class="item" action="/manager/extras/add" method="post">
-            <input type="text" name="newItem" placeholder="Name" autocomplete="off">
+            <input type="text" name="newItem" placeholder="Name" autocomplete="off" maxlength="50" class="newItem">
             <input type="text" name="price" placeholder="Price" autocomplete="off">
             <button type="submit" class="add" name="button" value="1">Add</button>
         </form>
+    </div>
         </div>
         </body>
 
