@@ -120,7 +120,7 @@
     const email = emailInput.value;
 
     if (!email.endsWith("@iitk.ac.in")) {
-      emailInput.setCustomValidity("Please enter a valid IITK email address.");
+      emailInput.setCustomValidity("Invalid email address. Please enter an email address with the domain name 'iitk.ac.in'.");
     } else {
       emailInput.setCustomValidity("");
     }

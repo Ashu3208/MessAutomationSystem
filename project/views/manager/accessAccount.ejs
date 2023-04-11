@@ -17,7 +17,7 @@
                     <label for="endingDate" class="form-label"><b>Ending Date</b></label>
                     <input type="date" id="endingDate" class="form-control" name="endDate">
                     <label for="roll-number" class="form-label"><b>Daily Cost</b></label>
-                    <input type="number" class="form-control" name="dailyCost"  style="width: 20rem;" min="1">
+                    <input type="number" class="form-control" name="dailyCost"  style="width: 20rem;" min="1" max="150">
                     <button type="submit" class="btn btn-primary mt-3">Submit</button>
                 </div>
                 <script>
@@ -48,7 +48,7 @@
             <form action="/manager/accessAccount/update" method="post">
                 <div class="item">
                     <input type="text" name="rollNo" placeholder="Roll No" >
-                    <input type="number" name="paid" placeholder="Due paid" class="duePaid">
+                    <input type="number" name="paid" placeholder="Due paid" class="duePaid" min="0">
                     <button type="submit" class="add mx-5" name="button" value="0">Update</button>
                 </div>
             </form>
