@@ -35,8 +35,8 @@
         </form>
       
         <form class="item" action="/manager/extras/add" method="post">
-            <input type="text" name="newItem" placeholder="Name" autocomplete="off" maxlength="50" class="newItem">
-            <input type="number" class="duePaid"name="price" placeholder="Price" autocomplete="off" min="1" max="500">
+            <input type="text" name="newItem" placeholder="Name" autocomplete="off" maxlength="30" class="newItem" required>
+            <input type="number" class="duePaid"name="price" placeholder="Price" autocomplete="off" min="1" max="500" required>
             <button type="submit" class="add" name="button" value="1">Add</button>
         </form>
     </div>

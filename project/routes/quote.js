@@ -162,7 +162,7 @@ router.post("/rebate", async (req, res) => {
     const endDate = date2.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
 
     if (date2.getTime() >= date1.getTime() && date1.getTime() >= curr_date.getTime()) {
-        const diff = Math.abs(date2.getTime() - date1.getTime())+1;
+        const diff = Math.abs(date2.getTime() - date1.getTime()) + 1;
         const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
         console.log(diffDays);
         const rebate = new Rebate({
@@ -336,7 +336,7 @@ router.post("/manager/messMenu/add", async (req, res) => {
         name: req.body.name,
         code: req.body.code
     });
-    
+
     try {
         function isWhitespaceString(str) {
             return /^\s*$/.test(str);
@@ -374,7 +374,7 @@ router.get("/manager/extras", async (req, res) => {
 router.post("/manager/extras/add", async (req, res) => {
 
     const extra = new Extra({
-        name: req.body.newItem,
+        name: req.body.newItem.trim().replace(/\s+/g, ' '),
         price: req.body.price
     });
     try {
@@ -382,7 +382,18 @@ router.post("/manager/extras/add", async (req, res) => {
             return /^\s*$/.test(str);
         }
         if (!isWhitespaceString(req.body.newItem) && !isWhitespaceString(req.body.price)) {
-            await extra.save();
+            
+
+
+            const result = await Extra.updateOne({ name: req.body.newItem.trim().replace(/\s+/g, ' ') }, { price: req.body.price })
+            console.log(result.nModified)
+            try {
+                if (result.modifiedCount === 0) {
+                    await extra.save()
+                }
+            } catch (err) {
+                console.log(err)
+            }
         }
     } catch (err) {
         console.log(err)
