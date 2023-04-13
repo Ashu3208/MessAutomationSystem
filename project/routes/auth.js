@@ -27,7 +27,7 @@ passport.deserializeUser(function (id, done) {
 
 // register user in db
 router.post("/auth/register", async (req, res) => {
-    try {
+     try {
         function isWhitespaceString(str) {
             return /^\s*$/.test(str);
         }
@@ -40,14 +40,30 @@ router.post("/auth/register", async (req, res) => {
 
                 if (emailRegex.test(email)) {
                     console.log('Valid email');
-                    const registerUser = await User.register({ name: req.body.name, rollNumber: req.body.rollNumber, username: req.body.username, extrasCost: 0, rebateDays: 0, dues: 0 }, req.body.password);
-                    if (registerUser) {
-//                         passport.authenticate("local")(req, res, function () {
-                            res.redirect("/login")
-//                         })
-                    } else {
-                        res.redirect("/register")
-                    }
+                  const existingUser = await User.findOne({ username: req.body.username });
+                  const existingroll=await User.findOne({rollNumber:req.body.rollNumber})
+                if (existingUser ) {
+                // username already exists, send an alert to the user
+                return res.send(`<script>alert("Username already exists. Please choose a different username."); window.location.href='/register';</script>`);
+                }else if(existingroll){
+                    return res.send(`<script>alert("Roll number already exists. Please choose a different roll number."); window.location.href='/register';</script>`);
+                } 
+                else {
+                const registerUser = await User.register({
+                    name: req.body.name,
+                    rollNumber: req.body.rollNumber,
+                    username: req.body.username,
+                    extrasCost: 0,
+                    rebateDays: 0,
+                    dues: 0
+                }, req.body.password);
+                if (registerUser) {
+                    res.redirect("/login");
+                } else {
+                    res.redirect("/register");
+                }
+                }
+
                 } else {
                     console.log('Invalid email');
                     res.redirect("/register")
