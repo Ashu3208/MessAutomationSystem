@@ -14,11 +14,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-      username: {
-        type: String,
-        equired: true,
-        unique: true
-    },
+    username: String,
     password: String,
     extrasCost: {
         type: Number,
