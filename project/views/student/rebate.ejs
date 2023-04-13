@@ -2,7 +2,24 @@
 <title>Apply for Rebate</title>
 <%- include("../partials/head2") %>
     <%- include("../student/navbar") %>
+    <!-- Example of a Bootstrap modal that displays an error message -->
 
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="errorModalLabel">STATUS</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="errorMessage"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
         <div class="card">
             <form action="/rebate" method="post">
                 <div class="mb-3">
@@ -12,11 +29,18 @@
                     <input type="date" id="endingDate" class="form-control" name="endDate">
 
                     <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    
                 </div>
                 <script>
-                     var startInput = document.getElementById("startingDate");
+                    const flag = '<%= flag %>';
+                    if(flag==1){
+                        const message = "Your current request overlaps with your past requests, please try some other dates.";
+                        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                        document.getElementById('errorMessage').textContent = message;
+                        errorModal.show();
+                    }
+                    var startInput = document.getElementById("startingDate");
                     const today = new Date();
-        
                     // Disable keyboard input
                     startInput.min = today.toISOString().split("T")[0];
                     endInput.min = today.toISOString().split("T")[0];
@@ -29,9 +53,11 @@
                     endInput.addEventListener("keydown", function (event) {
                         event.preventDefault();
                     });
+                    
                 </script>
             </form>
         </div>
+
 
         <div class="box" id="heading">
             <h1> My Rebate requests </h1>
