@@ -333,7 +333,7 @@ router.get("/manager/messMenu", async (req, res) => {
 
 router.post("/manager/messMenu/add", async (req, res) => {
     const item = new Item({
-        name: req.body.name,
+        name: req.body.name.trim().replace(/\s+/g, ' '),
         code: req.body.code
     });
 
@@ -342,7 +342,36 @@ router.post("/manager/messMenu/add", async (req, res) => {
             return /^\s*$/.test(str);
         }
         if (!isWhitespaceString(req.body.name)) {
-            await item.save();
+            try {
+                const Code = req.body.code;
+                const result = await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code }, { code: Code - 2 })
+                if (Code % 10 === 0) {
+
+                    const result2 = await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code + 1 }, { code: Code - 2 })
+                    if (result.modifiedCount === 0 && result2.modifiedCount === 0) {
+                        await item.save()
+                        console.log("no copy")
+                    } else {
+                        await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code - 1 }, { code: Code + 1 })
+                        await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code - 2 }, { code: Code })
+                        console.log(" copy exists")
+                    }
+                } else {
+                    const result2 = await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code - 1 }, { code: Code - 2 })
+                    if (result.modifiedCount === 0 && result2.modifiedCount === 0) {
+                        await item.save()
+                        console.log("no copy")
+                    } else {
+                        await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code - 3 }, { code: Code - 1 })
+                        await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code - 2 }, { code: Code })
+                        console.log(" copy exists")
+                    }
+                }
+
+            } catch (err) {
+                console.log(err)
+            }
+
         }
     } catch (err) {
         console.log(err)
@@ -382,12 +411,11 @@ router.post("/manager/extras/add", async (req, res) => {
             return /^\s*$/.test(str);
         }
         if (!isWhitespaceString(req.body.newItem) && !isWhitespaceString(req.body.price)) {
-            
 
-
-            const result = await Extra.updateOne({ name: req.body.newItem.trim().replace(/\s+/g, ' ') }, { price: req.body.price })
-            console.log(result.nModified)
             try {
+                const result = await Extra.updateOne({ name: req.body.newItem.trim().replace(/\s+/g, ' ') }, { price: req.body.price })
+                console.log(result.nModified)
+
                 if (result.modifiedCount === 0) {
                     await extra.save()
                 }
@@ -434,7 +462,7 @@ router.post("/manager/accessAccount", async (req, res) => {
     console.log(formattedStart + formattedEnd);
 
     if (date2 >= date1) {
-        const workingDays = Math.ceil((Math.abs(date2 - date1)) / (1000 * 3600 * 24));
+        const workingDays = Math.ceil((Math.abs(date2 - date1)) / (1000 * 3600 * 24)) + 1;
         console.log(workingDays);
         for (let i = 0; i < students.length; i++) {
             let totalCost = 0;
