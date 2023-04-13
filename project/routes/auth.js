@@ -94,7 +94,7 @@ router.post("/auth/login", (req, res) => {
         username: req.body.username,
         password: req.body.password
     })
-
+    let error = 0;
     // using passport login method we will check if credentials are correct or not
     req.login(user, (err) => {
         if (err) {

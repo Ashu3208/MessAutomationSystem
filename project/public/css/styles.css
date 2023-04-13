@@ -80,8 +80,13 @@ h1 {
   min-height: 70px;
   display: flex;
   align-items: center;
+  /* word-break: break-all; */
   border-bottom: 1px solid #F1F1F1;
   margin-left: 20px;
+}
+
+.text {
+  word-break: break-all;
 }
 
 p {
