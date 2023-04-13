@@ -356,28 +356,43 @@ router.post("/manager/messMenu/add", async (req, res) => {
         }
         if (!isWhitespaceString(req.body.name)) {
             try {
-                const Code = req.body.code;
+                const Code = parseInt(req.body.code);
                 const result = await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code }, { code: Code - 2 })
-                if (Code % 10 === 0) {
 
-                    const result2 = await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code + 1 }, { code: Code - 2 })
+                if (Code % 10 === 0) {
+                    
+                    const result2 = await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code + 1 }, { code: Code - 1 })
+                    
                     if (result.modifiedCount === 0 && result2.modifiedCount === 0) {
                         await item.save()
-                        console.log("no copy")
+                        console.log("no copy in regular and extras")
                     } else {
                         await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code - 1 }, { code: Code + 1 })
                         await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code - 2 }, { code: Code })
-                        console.log(" copy exists")
+
                     }
-                } else {
-                    const result2 = await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code - 1 }, { code: Code - 2 })
+                    if (result.modifiedCount === 1) {
+                        console.log("regular copy exists")
+                    }
+                    if (result2.modifiedCount === 1) {
+                        console.log("extra copy exists")
+                    }
+                } else if (Code % 10 === 1) {
+                    const result2 = await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code - 1 }, { code: Code - 3 })
                     if (result.modifiedCount === 0 && result2.modifiedCount === 0) {
                         await item.save()
-                        console.log("no copy")
+                        console.log("no copy in regular and extras")
                     } else {
                         await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code - 3 }, { code: Code - 1 })
                         await Item.updateOne({ name: req.body.name.trim().replace(/\s+/g, ' '), code: Code - 2 }, { code: Code })
-                        console.log(" copy exists")
+
+                    }
+
+                    if (result2.modifiedCount === 1) {
+                        console.log("regular copy exists")
+                    }
+                    if (result.modifiedCount === 1) {
+                        console.log("extra copy exists")
                     }
                 }
 
