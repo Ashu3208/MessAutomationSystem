@@ -215,14 +215,17 @@ router.post("/extras", async (req, res) => {
     const list = await Extra.find({});
     const items = [], prices = [], quantities = []
     let totalCost = 0;
-
-    for (let i = 0; i < req.body.quantity.length; i++) {
-        if (req.body.quantity[i] > 0) {
-            items.push(list[i].name);
-            prices.push(list[i].price);
-            quantities.push(req.body.quantity[i]);
-            totalCost += req.body.quantity[i] * list[i].price;
+try {
+        for (let i = 0; i < req.body.quantity.length; i++) {
+            if (req.body.quantity[i] > 0) {
+                items.push(list[i].name);
+                prices.push(list[i].price);
+                quantities.push(req.body.quantity[i]);
+                totalCost += req.body.quantity[i] * list[i].price;
+            }
         }
+    } catch (error) {
+        return res.send(`<script>alert("No extras available"); window.location.href='/extras';</script>`);
     }
     await User.findByIdAndUpdate(req.user._id, { $inc: { extrasCost: totalCost } })
     if (items.length != 0) {
