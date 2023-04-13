@@ -215,14 +215,17 @@ router.post("/extras", async (req, res) => {
     const list = await Extra.find({});
     const items = [], prices = [], quantities = []
     let totalCost = 0;
-
-    for (let i = 0; i < req.body.quantity.length; i++) {
-        if (req.body.quantity[i] > 0) {
-            items.push(list[i].name);
-            prices.push(list[i].price);
-            quantities.push(req.body.quantity[i]);
-            totalCost += req.body.quantity[i] * list[i].price;
+try {
+        for (let i = 0; i < req.body.quantity.length; i++) {
+            if (req.body.quantity[i] > 0) {
+                items.push(list[i].name);
+                prices.push(list[i].price);
+                quantities.push(req.body.quantity[i]);
+                totalCost += req.body.quantity[i] * list[i].price;
+            }
         }
+    } catch (error) {
+        return res.send(`<script>alert("Extras unavailable.Please Try again"); window.location.href='/extras';</script>`);
     }
     await User.findByIdAndUpdate(req.user._id, { $inc: { extrasCost: totalCost } })
     if (items.length != 0) {
@@ -297,7 +300,12 @@ router.get("/manager/rebateApproval", async (req, res) => {
 router.post("/manager/rebateApproval/approved", async (req, res) => {
     await Rebate.findByIdAndUpdate(req.body.button, { status: "Approved" })
     const rebate = await Rebate.findById(req.body.button)
-    await User.findOneAndUpdate({ rollNumber: rebate.rollNo }, { rebateDays: rebate.days })
+    try {
+        await User.findOneAndUpdate({ rollNumber: rebate.rollNo }, { rebateDays: rebate.days })
+    } catch (error) {
+        return res.send(`<script>alert("Request has been withdrawn"); window.location.href='/manager/rebateApproval';</script>`);
+    }
+    
     res.redirect("/manager/rebateApproval")
 })
 router.post("/manager/rebateApproval/rejected", async (req, res) => {

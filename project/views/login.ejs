@@ -24,42 +24,6 @@
           }
         </style>
 
-        <!-- Example of a Bootstrap modal that displays an error message -->
-
-        <div
-          class="modal fade"
-          id="errorModal"
-          tabindex="-1"
-          aria-labelledby="errorModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="errorModalLabel">STATUS</h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <p id="errorMessage"></p>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
           <div class="row gx-lg-5 align-items-center mb-5">
             <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
@@ -151,13 +115,6 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
       crossorigin="anonymous">
-      const error = '<%= error %>';
-      if(error==1){
-        const message = "invalid email-id or password";
-        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-        document.getElementById('errorMessage').textContent = message;
-        errorModal.show();
-      }
     </script>
   </body>
 </html>
