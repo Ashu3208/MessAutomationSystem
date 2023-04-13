@@ -300,7 +300,12 @@ router.get("/manager/rebateApproval", async (req, res) => {
 router.post("/manager/rebateApproval/approved", async (req, res) => {
     await Rebate.findByIdAndUpdate(req.body.button, { status: "Approved" })
     const rebate = await Rebate.findById(req.body.button)
-    await User.findOneAndUpdate({ rollNumber: rebate.rollNo }, { rebateDays: rebate.days })
+    try {
+        await User.findOneAndUpdate({ rollNumber: rebate.rollNo }, { rebateDays: rebate.days })
+    } catch (error) {
+        return res.send(`<script>alert("Request has been withdrawn"); window.location.href='/manager/rebateApproval';</script>`);
+    }
+    
     res.redirect("/manager/rebateApproval")
 })
 router.post("/manager/rebateApproval/rejected", async (req, res) => {
