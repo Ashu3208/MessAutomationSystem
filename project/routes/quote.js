@@ -161,7 +161,6 @@ router.post("/rebate", async (req, res) => {
     const startDate = date1.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
     const endDate = date2.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
     const student_prev_rebates=await Rebate.find({ rollNo: req.user.rollNumber });
-
     let flag=0;
     let prev_date_1,prev_date_2;
     for(let i=0;i<(student_prev_rebates).length;i++){
@@ -203,7 +202,6 @@ router.get("/extras", async (req, res) => {
         } else {
             res.render("student/extras", { extrasMenu: await Extra.find({}) })
         }
-
     }
     else {
         res.redirect("/login")
