@@ -14,7 +14,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    username: String,
+      username: {
+        type: String,
+        equired: true,
+        unique: true
+    },
     password: String,
     extrasCost: {
         type: Number,
