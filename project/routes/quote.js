@@ -225,7 +225,7 @@ try {
             }
         }
     } catch (error) {
-        return res.send(`<script>alert("No extras available"); window.location.href='/extras';</script>`);
+        return res.send(`<script>alert("Extras unavailable.Please Try again"); window.location.href='/extras';</script>`);
     }
     await User.findByIdAndUpdate(req.user._id, { $inc: { extrasCost: totalCost } })
     if (items.length != 0) {
