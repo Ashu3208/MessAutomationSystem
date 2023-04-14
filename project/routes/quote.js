@@ -1,14 +1,15 @@
 router = require("express").Router();
 require("dotenv").config();
-const Extra = require("../models/Extra");
-const Order = require("../models/Order");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const Complaint = require("../models/Complaint");
-const Bill = require("../models/Bill");
-const User = require("../models/User");
-const Item = require("../models/Item");
-const Rebate = require("../models/Rebate");
+const Extra = require('../models/Extra')
+const Order = require('../models/Order')
+const bodyParser = require("body-parser")
+const mongoose = require("mongoose")
+const Complaint = require('../models/Complaint')
+const Bill = require('../models/Bill')
+const User = require('../models/User')
+const Item = require('../models/Item')
+const Rebate = require('../models/Rebate')
+const Pastbill = require('../models/past_bills')
 // const popup = require('popups');
 
 // create routes
@@ -170,16 +171,38 @@ router.post("/complain/remove", async (req, res) => {
 
 router.get("/rebate", async (req, res) => {
   let flag = req.query.flag;
-  if (req.isAuthenticated()) {
-    if (process.env.SUPERUSER === "true") {
-      res.redirect("/");
-    } else {
-      res.render("student/rebate", {
-        rebates: await Rebate.find({ rollNo: req.user.rollNumber }),
-        message: "",
-        flag: flag,
-      });
+  const curr_date = new Date().getTime();
+  const rebates = await Rebate.find({ rollNo: req.user.rollNumber });
+  let index = 0;
+  let active = 0;
+  let start = 0;
+  let start_date = "NA";
+  let end_date = "NA";
+  let status = "NA";
+  for (let i = 0; i < rebates.length; i++) {
+    if (rebates[i].displayStatus == "Active") {
+      if (curr_date > new Date(rebates[i].endDate).getTime()) {
+        rebates[i].displayStatus = "Inactive";
+        await Rebate.findByIdAndUpdate(rebates[i]._id, { displayStatus: "Inactive" });
+      }
+      else {
+        start_date = rebates[i].startDate;
+        end_date = rebates[i].endDate;
+        start = new Date((rebates[i]).startDate).getTime();
+        status = rebates[i].status;
+        active = 1;
+        index = i;
+      }
     }
+  }
+  if (req.isAuthenticated()) {
+    if (process.env.SUPERUSER === 'true') {
+      res.redirect("/")
+    } else {
+      res.render("student/rebate", { rebates: rebates, message: "", flag: flag, curr_date: curr_date, active: active, start: start, start_date: start_date, end_date: end_date, index: index, status: status })
+    }
+
+
   } else {
     res.redirect("/login");
   }
@@ -202,30 +225,19 @@ router.post("/rebate", async (req, res) => {
     month: "long",
     year: "numeric",
   });
-  const student_prev_rebates = await Rebate.find({
-    rollNo: req.user.rollNumber,
-  });
 
+
+
+  const student_prev_rebates = await Rebate.find({ rollNo: req.user.rollNumber, displayStatus: "Active" });
   let flag = 0;
-  let prev_date_1, prev_date_2;
-  for (let i = 0; i < student_prev_rebates.length; i++) {
-    prev_date_1 = new Date(student_prev_rebates[i].startDate);
-    prev_date_2 = new Date(student_prev_rebates[i].endDate);
-    if (
-      (date1.getTime() >= prev_date_1.getTime() &&
-        date1.getTime() <= prev_date_2.getTime()) ||
-      (date2.getTime() >= prev_date_1.getTime() &&
-        date2.getTime() <= prev_date_2.getTime())
-    ) {
-      flag = 1;
-      break;
-    }
+
+  console.log(student_prev_rebates.length);
+  if (student_prev_rebates.length != 0) {
+    flag = 1;
   }
-  if (
-    date2.getTime() >= date1.getTime() &&
-    date1.getTime() >= curr_date.getTime() &&
-    flag == 0
-  ) {
+
+
+  if (date2.getTime() >= date1.getTime() && date1.getTime() >= curr_date.getTime() && flag == 0) {
     const diff = Math.abs(date2.getTime() - date1.getTime()) + 1;
     const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
     console.log(diffDays);
@@ -235,37 +247,40 @@ router.post("/rebate", async (req, res) => {
       endDate: endDate,
       days: diffDays,
       status: "pending",
-    });
-    rebate.save();
+      displayStatus: "Active"
+    })
+    flag = 2;
+    rebate.save()
   }
 
-  res.redirect("/rebate?flag=" + flag);
+  res.redirect("/rebate?flag=" + flag)
   // res.jsonp({error : flag})
-});
+})
 
-router.post("/rebate/remove", async (req, res) => {
-  await Rebate.findByIdAndRemove(req.body.button);
-  console.log("removed successfully");
-  res.redirect("/rebate");
-});
+router.post("/student/rebatewithdraw", async (req, res) => {
+  await Rebate.findByIdAndRemove(req.body.button)
+  console.log("removed successfully")
+  console.log(req.body.button)
+  res.redirect("/rebate")
+})
 
 router.get("/extras", async (req, res) => {
   if (req.isAuthenticated()) {
-    if (process.env.SUPERUSER === "true") {
-      res.redirect("/");
+    if (process.env.SUPERUSER === 'true') {
+      res.redirect("/")
     } else {
-      res.render("student/extras", { extrasMenu: await Extra.find({}) });
+      res.render("student/extras", { extrasMenu: await Extra.find({}) })
     }
+
   } else {
     res.redirect("/login");
   }
 });
 
 router.post("/extras", async (req, res) => {
+
   const list = await Extra.find({});
-  const items = [],
-    prices = [],
-    quantities = [];
+  const items = [], prices = [], quantities = []
   let totalCost = 0;
   try {
     for (let i = 0; i < req.body.quantity.length; i++) {
@@ -277,28 +292,30 @@ router.post("/extras", async (req, res) => {
       }
     }
   } catch (error) {
-    return res.send(
-      `<script>alert("Extras unavailable.Please Try again"); window.location.href='/extras';</script>`
-    );
+    return res.send(`
+        <script>
+        alert("no extras available at this movement,please try again later.")
+        window.location.href='/extras';</script>`);
   }
-  await User.findByIdAndUpdate(req.user._id, {
-    $inc: { extrasCost: totalCost },
-  });
+
+  await User.findByIdAndUpdate(req.user._id, { $inc: { extrasCost: totalCost } })
   if (items.length != 0) {
     const order = new Order({
       rollNo: req.user.rollNumber,
       itemName: items,
       quantity: quantities,
       price: prices,
-      total: totalCost,
-    });
-    order.save();
-    console.log(order);
-    res.redirect("/orders");
+      total: totalCost
+    })
+    order.save()
+    console.log(order)
+    res.redirect("/orders")
+
   } else {
-    res.redirect("/extras");
+    res.redirect("/extras")
   }
-});
+
+})
 
 // All manager get and post requests
 router.get("/manager/home", (req, res) => {
@@ -346,33 +363,29 @@ router.get("/manager/rebateApproval", async (req, res) => {
 });
 
 router.post("/manager/rebateApproval/approved", async (req, res) => {
-  await Rebate.findByIdAndUpdate(req.body.button, { status: "Approved" });
-  const rebate = await Rebate.findById(req.body.button);
+  await Rebate.findByIdAndUpdate(req.body.button, { status: "Approved" })
+  const rebate = await Rebate.findById(req.body.button)
   try {
-    await User.findOneAndUpdate(
-      { rollNumber: rebate.rollNo },
-      { rebateDays: rebate.days }
-    );
+    await User.findOneAndUpdate({ rollNumber: rebate.rollNo }, { rebateDays: rebate.days })
   } catch (error) {
-    return res.send(
-      `<script>alert("Request has been withdrawn"); window.location.href='/manager/rebateApproval';</script>`
-    );
+    return res.send(`<script>alert("Request has been withdrawn"); window.location.href='/manager/rebateApproval';</script>`);
   }
 
-  res.redirect("/manager/rebateApproval");
-});
+  res.redirect("/manager/rebateApproval")
+})
+
 router.post("/manager/rebateApproval/rejected", async (req, res) => {
-  await Rebate.findByIdAndUpdate(req.body.button, { status: "Rejected" });
-  res.redirect("/manager/rebateApproval");
-});
+  await Rebate.findByIdAndUpdate(req.body.button, { status: "Rejected", displayStatus: "Inactive" })
+  res.redirect("/manager/rebateApproval")
+})
+
 router.get("/manager/complaints", async (req, res) => {
   if (req.isAuthenticated()) {
-    if (process.env.SUPERUSER === "true") {
-      res.render("manager/complaints", {
-        complaints: await Complaint.find({ reply: "pending" }),
-      });
+    if (process.env.SUPERUSER === 'true') {
+      res.render("manager/complaints", { complaints: await Complaint.find({ reply: "pending" }) })
     } else {
-      res.redirect("/");
+      res.redirect("/")
+
     }
   } else {
     res.redirect("/login");
@@ -588,16 +601,21 @@ router.post("/manager/extras/add", async (req, res) => {
   res.redirect("/manager/extras");
 });
 router.post("/manager/extras/remove", async (req, res) => {
-  await Extra.findByIdAndRemove(req.body.button);
+
+  await Extra.findByIdAndRemove(req.body.button)
   res.redirect("/manager/extras");
-});
-router.get("/manager/accessAccount", (req, res) => {
+})
+
+router.get("/manager/accessAccount", async (req, res) => {
+  let flag = req.query.flag;
   if (req.isAuthenticated()) {
-    if (process.env.SUPERUSER === "true") {
-      res.render("manager/accessAccount");
+
+    if (process.env.SUPERUSER === 'true') {
+      res.render("manager/accessAccount", { users: await User.find({ rollNo: req.user.rollNumber }), flag: flag })
     } else {
-      res.redirect("/");
+      res.redirect("/")
     }
+
   } else {
     res.redirect("/login");
   }
@@ -623,17 +641,38 @@ router.post("/manager/accessAccount", async (req, res) => {
   const date2 = new Date(end).getTime();
   console.log(formattedStart + formattedEnd);
 
-  if (date2 >= date1) {
-    const workingDays =
-      Math.ceil(Math.abs(date2 - date1) / (1000 * 3600 * 24)) + 1;
+
+
+
+  const pastBills = await Pastbill.find();
+
+  let flag = 0;
+  let prev_date_1, prev_date_2;
+
+  for (let i = 0; i < pastBills.length; i++) {
+    prev_date_1 = new Date(pastBills[i].startDate);
+    prev_date_2 = new Date(pastBills[i].endDate);
+    if ((date1 >= prev_date_1.getTime() && date1 <= prev_date_2.getTime()) || (date2 >= prev_date_1.getTime() && date2 <= prev_date_2.getTime())) {
+      flag = 1;
+      break;
+    }
+  }
+
+  if (date2 >= date1 && flag == 0) {
+
+    const pastbill = new Pastbill({
+      startDate: formattedStart,
+      endDate: formattedEnd
+    })
+    pastbill.save();
+
+    const workingDays = Math.ceil((Math.abs(date2 - date1)) / (1000 * 3600 * 24)) + 1;
     console.log(workingDays);
     for (let i = 0; i < students.length; i++) {
       let totalCost = 0;
-
+      // const studentRebate = 
       if (workingDays >= students[i].rebateDays) {
-        totalCost =
-          (workingDays - students[i].rebateDays) * req.body.dailyCost +
-          students[i].extrasCost;
+        totalCost = (workingDays - students[i].rebateDays) * req.body.dailyCost + students[i].extrasCost;
       } else {
         totalCost = students[i].extrasCost;
       }
@@ -646,17 +685,14 @@ router.post("/manager/accessAccount", async (req, res) => {
         dailyCost: req.body.dailyCost,
         rebateDays: students[i].rebateDays,
         extrasCost: students[i].extrasCost,
-        total: totalCost,
-      });
-      bill.save();
-      await User.findOneAndUpdate(
-        { rollNumber: bill.rollNo },
-        { extrasCost: 0, rebateDays: 0, $inc: { dues: totalCost } }
-      );
+        total: totalCost
+      })
+      bill.save()
+      await User.findOneAndUpdate({ rollNumber: bill.rollNo }, { extrasCost: 0, rebateDays: 0, $inc: { dues: totalCost } })
     }
   }
-  res.redirect("/manager/accessAccount");
-});
+  res.redirect("/manager/accessAccount?flag=" + flag)
+})
 
 router.post("/manager/accessAccount/update", async (req, res) => {
   if (req.body.paid > 0) {

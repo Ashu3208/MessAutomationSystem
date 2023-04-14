@@ -1,58 +1,89 @@
 <%- include("../partials/head") %>
-<title>Access Account</title>
-<%- include("../partials/head2") %>
-    <%- include("navbar") %>
+    <title>Access Account</title>
+    <%- include("../partials/head2") %>
+        <%- include("navbar") %>
 
-        <div class="box" id="heading">
-            <h1> Generate bill </h1>
-        </div>
+            <!-- Example of a Bootstrap modal that displays an error message -->
 
-        <div class="card">
-            <form action="/manager/accessAccount" method="post">
-
-                <div class="mb-3">
-                    <h1>Generate Bill</h1>
-                    <label for="startingDate" class="form-label"><b>Starting date</b></label>
-                    <input type="date" id="startingDate" class="form-control" name="startDate">
-                    <label for="endingDate" class="form-label"><b>Ending Date</b></label>
-                    <input type="date" id="endingDate" class="form-control" name="endDate">
-                    <label for="roll-number" class="form-label"><b>Daily Cost</b></label>
-                    <input type="number" class="form-control" name="dailyCost"  style="width: 20rem;" min="1" max="150">
-                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="errorModalLabel">STATUS</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="errorMessage"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
-                <script>
-                    var startInput = document.getElementById("startingDate");
-
-                    // Disable keyboard input
-                    startInput.addEventListener("keydown", function (event) {
-                        event.preventDefault();
-                    });
-                    var endInput = document.getElementById("endingDate");
-
-                    // Disable keyboard input
-                    endInput.addEventListener("keydown", function (event) {
-                        event.preventDefault();
-                    });
+            </div>
 
 
-                </script>
-            </form>
-        </div>
-        <div class="box" id="heading">
-            <h1> Update dues </h1>
-        </div>
+            <div class="box" id="heading">
+                <h1> Generate bill </h1>
+            </div>
 
-        <div class="box">
+            <div class="card">
+                <form action="/manager/accessAccount" method="post">
+
+                    <div class="mb-3">
+                        <h1>Generate Bill</h1>
+                        <label for="startingDate" class="form-label"><b>Starting date</b></label>
+                        <input type="date" id="startingDate" class="form-control" name="startDate">
+                        <label for="endingDate" class="form-label"><b>Ending Date</b></label>
+                        <input type="date" id="endingDate" class="form-control" name="endDate">
+                        <label for="roll-number" class="form-label"><b>Daily Cost</b></label>
+                        <input type="number" class="form-control" name="dailyCost" style="width: 20rem;" min="1"
+                            max="150">
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </div>
+                    <script>
+                        const flag = '<%= flag %>';
+                        if (flag == 1) {
+                            const message = "Based on the information you've provided, it seems that there is an existing bill that may address your current request. I suggest reviewing the details of this bill and its potential impact on your situation.";
+                            const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                            document.getElementById('errorMessage').textContent = message;
+                            errorModal.show();
+                        }
+                        var startInput = document.getElementById("startingDate");
+
+                        // Disable keyboard input
+                        startInput.addEventListener("keydown", function (event) {
+                            event.preventDefault();
+                        });
+                        var endInput = document.getElementById("endingDate");
+
+                        // Disable keyboard input
+                        endInput.addEventListener("keydown", function (event) {
+                            event.preventDefault();
+                        });
+                        var today = new Date();
+                        today.setDate(today.getDate() + 1);
+                        var tomorrow = today.toISOString().split('T')[0];
+                        document.getElementById("startingDate").setAttribute('max', tomorrow);
+                        document.getElementById("endingDate").setAttribute('max', tomorrow);
+                    </script>
+                </form>
+            </div>
+            <div class="box" id="heading">
+                <h1> Update dues </h1>
+            </div>
+
+            <div class="box">
 
 
-            <form action="/manager/accessAccount/update" method="post">
-                <div class="item">
-                    <input type="text" name="rollNo" placeholder="Roll No" >
-                    <input type="number" name="paid" placeholder="Due paid" class="duePaid" min="0">
-                    <button type="submit" class="add mx-5" name="button" value="0">Update</button>
-                </div>
-            </form>
-        </div>
-        </body>
+                <form action="/manager/accessAccount/update" method="post">
+                    <div class="item">
+                        <input type="text" name="rollNo" placeholder="Roll No">
+                        <input type="number" name="paid" placeholder="Due paid" class="duePaid" min="0">
+                        <button type="submit" class="add mx-5" name="button" value="0">Update</button>
+                    </div>
+                </form>
+            </div>
+            </body>
 
-        </html>
+            </html>
