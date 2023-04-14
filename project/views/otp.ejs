@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>Otp Verification</title>
+  </head>
+
+  <body>
+    <form method="POST" action="/otp">
+      <input type="hidden" name="email" value= <%= email%> >
+      <input type="hidden" name="name" value= <%= name%> >
+      <input type="hidden" name="password" value= <%= password%> >
+      <input type="hidden" name="rollNumber" value= <%= rollNumber%> >
+      <label for="otp">Please enter the OTP you received via email</label>
+      <input type="text" name="otp" id="otp" required />
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>
