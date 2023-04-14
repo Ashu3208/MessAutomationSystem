@@ -90,7 +90,7 @@ router.post("/auth/register", async (req, res) => {
                 req.body.name
               )}&rollNumber=${encodeURIComponent(
                 req.body.rollNumber
-              )}&password=${encodeURIComponent(req.body.password)}`
+              )}&password=${btoa(req.body.password)}`
             );
           }
         } else {
@@ -115,7 +115,7 @@ router.get("/otp", (req, res) => {
   res.render("otp", {
     email: req.query.email,
     rollNumber: req.query.rollNumber,
-    password: req.query.password,
+    password: atob(req.query.password),
     name: req.query.name,
   });
 });
@@ -155,7 +155,7 @@ router.post("/otp", async (req, res) => {
       req.body.name
     )}&rollNumber=${encodeURIComponent(
       req.body.rollNumber
-    )}&password=${encodeURIComponent(req.body.password)}";
+    )}&password=${btoa(req.body.password)}";
     </script>`);
   }
 });
