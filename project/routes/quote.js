@@ -140,11 +140,12 @@ router.get("/rebate", async (req, res) => {
     let flag= req.query.flag;
     const curr_date = new Date().getTime();
     const rebates = await Rebate.find({ rollNo : req.user.rollNumber });
-    let index;
+    let index=0;
     let active =0;
     let start = 0;
     let start_date = "NA";
     let end_date = "NA";
+    let status = "NA";
     for(let i=0;i<rebates.length;i++){
         if(rebates[i].displayStatus == "Active"){
             if(curr_date > new Date(rebates[i].endDate).getTime()){
@@ -155,6 +156,7 @@ router.get("/rebate", async (req, res) => {
                 start_date = rebates[i].startDate;
                 end_date = rebates[i].endDate;
                 start = new Date((rebates[i]).startDate).getTime();
+                status = rebates[i].status;
                 active = 1;
                 index=i;
             }
@@ -164,7 +166,7 @@ router.get("/rebate", async (req, res) => {
         if (process.env.SUPERUSER === 'true') {
             res.redirect("/") 
         } else {
-            res.render("student/rebate", { rebates: rebates , message: "",flag: flag,curr_date: curr_date , active : active , start: start , start_date: start_date , end_date: end_date,index:index,status: rebates[index].status})
+            res.render("student/rebate", { rebates: rebates , message: "",flag: flag,curr_date: curr_date , active : active , start: start , start_date: start_date , end_date: end_date,index:index,status: status})
         }
 
     }
@@ -561,7 +563,7 @@ router.post("/manager/accessAccount", async (req, res) => {
         console.log(workingDays);
         for (let i = 0; i < students.length; i++) {
             let totalCost = 0;
-
+            // const studentRebate = 
             if (workingDays >= students[i].rebateDays) {
                 totalCost = (workingDays - students[i].rebateDays) * req.body.dailyCost + students[i].extrasCost;
             } else {
