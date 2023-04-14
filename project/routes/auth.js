@@ -50,8 +50,9 @@ router.post("/auth/register", async (req, res) => {
           });
           if (existingUser) {
             // username already exists, send an alert to the user
-            return res.send(`<script>alert("Sorry, that email address is already in use. Please try logging in or use a different email address to register.
-                        "); window.location.href='/register';</script>`);
+            return res.send(
+              `<script>alert("Sorry, that email address is already in use. Please try logging in or use a different email address to register."); window.location.href='/register';</script>`
+            );
           } else if (existingroll) {
             return res.send(
               `<script>alert("Roll number already exists. Please choose a different roll number."); window.location.href='/register';</script>`
@@ -82,7 +83,6 @@ router.post("/auth/register", async (req, res) => {
               .catch((error) => {
                 console.error(error);
               });
-
             res.redirect(
               `/otp?email=${encodeURIComponent(
                 email
@@ -153,9 +153,9 @@ router.post("/otp", async (req, res) => {
       req.body.email
     )}&name=${encodeURIComponent(
       req.body.name
-    )}&rollNumber=${encodeURIComponent(
-      req.body.rollNumber
-    )}&password=${btoa(req.body.password)}";
+    )}&rollNumber=${encodeURIComponent(req.body.rollNumber)}&password=${btoa(
+      req.body.password
+    )}";
     </script>`);
   }
 });
