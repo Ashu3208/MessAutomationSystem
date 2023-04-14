@@ -1,11 +1,13 @@
 // require express router, passport
 const router = require('express').Router()
 const passport = require('passport')
+
 require("dotenv").config();
 
 // User Model
 const User = require('../models/User')
-
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 //create passport local strategy
 passport.use(User.createStrategy())
 
@@ -24,10 +26,11 @@ passport.deserializeUser(function (id, done) {
 });
 
 
+// Verify the email address
 
 // register user in db
 router.post("/auth/register", async (req, res) => {
-     try {
+    try {
         function isWhitespaceString(str) {
             return /^\s*$/.test(str);
         }
@@ -40,29 +43,77 @@ router.post("/auth/register", async (req, res) => {
 
                 if (emailRegex.test(email)) {
                     console.log('Valid email');
-                  const existingUser = await User.findOne({ username: req.body.username });
-                  const existingroll=await User.findOne({rollNumber:req.body.rollNumber})
-                if (existingUser ) {
-                // username already exists, send an alert to the user
-                return res.send(`<script>alert("Username already exists. Please choose a different username."); window.location.href='/register';</script>`);
-                }else if(existingroll){
-                    return res.send(`<script>alert("Roll number already exists. Please choose a different roll number."); window.location.href='/register';</script>`);
-                } 
-                else {
-                const registerUser = await User.register({
-                    name: req.body.name,
-                    rollNumber: req.body.rollNumber,
-                    username: req.body.username,
-                    extrasCost: 0,
-                    rebateDays: 0,
-                    dues: 0
-                }, req.body.password);
-                if (registerUser) {
-                    res.redirect("/login");
-                } else {
-                    res.redirect("/register");
-                }
-                }
+                    const existingUser = await User.findOne({ username: req.body.username });
+                    const existingroll = await User.findOne({ rollNumber: req.body.rollNumber })
+                    if (existingUser) {
+                        // username already exists, send an alert to the user
+                        return res.send(`<script>alert("Sorry, that email address is already in use. Please try logging in or use a different email address to register.
+                        "); window.location.href='/register';</script>`);
+                    } else if (existingroll) {
+                        return res.send(`<script>alert("Roll number already exists. Please choose a different roll number."); window.location.href='/register';</script>`);
+                    }
+                    else {
+                        const otp = Math.floor(Math.random() * 1000000);
+                        const msg = {
+                            to: email,
+                            from: 'messautomation7@gmail.com',
+                            subject: 'Your OTP for website registration',
+                            text: `Your OTP is ${otp}. This OTP is valid for 5 minutes.`,
+                        };
+
+                        sgMail.send(msg)
+                            .then(() => {
+                                console.log('Email sent');
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            });
+
+                        setTimeout(() => {
+                            // Remove the OTP from the database after the expiry time
+                        }, 5 * 60 * 1000); // Set the expiry time to 5 minutes
+
+                        
+                        
+                        res.send(`
+                            <script>
+                                
+                                const inputOtp = prompt("Please enter the OTP you received via email");
+
+                                if (inputOtp === "${otp}") {
+                                    alert("OTP verification successful!");
+
+                                    const registerUser = await User.register({
+                                        name: req.body.name,
+                                        rollNumber: req.body.rollNumber,
+                                        username: req.body.username,
+                                        extrasCost: 0,
+                                        rebateDays: 0,
+                                        dues: 0
+                                    }, req.body.password);
+
+                                    if (registerUser) {
+                                        
+                                        passport.authenticate("local")(req, res, function () {
+                                            res.redirect("/login")
+                                        })
+
+                                    } else {
+                                        window.location.href='/register';
+                                    }
+
+                                } else {
+                                    alert("Sorry, the OTP you entered is incorrect. Please try again.");
+                                    window.location.href='/register';
+                                }
+                            </script>
+                        `);
+
+
+
+
+
+                    }
 
                 } else {
                     console.log('Invalid email');

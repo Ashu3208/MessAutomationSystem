@@ -3,6 +3,26 @@
 <%- include("../partials/head2") %>
     <%- include("navbar") %>
 
+<!-- Example of a Bootstrap modal that displays an error message -->
+
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="errorModalLabel">STATUS</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="errorMessage"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
         <div class="box" id="heading">
             <h1> Generate bill </h1>
         </div>
@@ -21,6 +41,13 @@
                     <button type="submit" class="btn btn-primary mt-3">Submit</button>
                 </div>
                 <script>
+                    const flag = '<%= flag %>';
+                    if(flag==1){
+                        const message = "Based on the information you've provided, it seems that there is an existing bill that may address your current request. I suggest reviewing the details of this bill and its potential impact on your situation.";
+                        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                        document.getElementById('errorMessage').textContent = message;
+                        errorModal.show();
+                    }
                     var startInput = document.getElementById("startingDate");
 
                     // Disable keyboard input
@@ -33,8 +60,6 @@
                     endInput.addEventListener("keydown", function (event) {
                         event.preventDefault();
                     });
-
-
                 </script>
             </form>
         </div>
@@ -44,7 +69,7 @@
 
         <div class="box">
 
-
+            
             <form action="/manager/accessAccount/update" method="post">
                 <div class="item">
                     <input type="text" name="rollNo" placeholder="Roll No" >

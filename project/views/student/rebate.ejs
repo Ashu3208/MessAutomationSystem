@@ -20,21 +20,61 @@
       </div>
     </div>
   </div>
-        <div class="card">
-            <form action="/rebate" method="post">
-                <div class="mb-3">
-                    <label for="startingDate" class="form-label"><b>Starting date</b></label>
-                    <input type="date" id="startingDate" class="form-control" name="startDate">
-                    <label for="endingDate" class="form-label"><b>Ending Date</b></label>
-                    <input type="date" id="endingDate" class="form-control" name="endDate">
+                
+                <div class="row">
+                    <div class="col-md-6">
+                      <div class="card">
+                        <h2>Active rebate</h2>
+                        <% if(active === 1) { %>
+                          <div class="mb-3">
+                            <label for="startingDate" class="form-label"><b>Starting date</b></label>
+                            <!-- <input type="date" id="startingDate" class="form-control" name="startDate"> -->
+                            <p><%= start_date %></p>
+                            <label for="endingDate" class="form-label"><b>Ending Date</b></label>
+                            <!-- <input type="date" id="endingDate" class="form-control" name="endDate"> -->
+                            <p><%= end_date %></p>
+                            <label for="status" class="form-label"><b>status</b></label>
+                            <br>
+                            <%=status%>
+                            <% if(start > curr_date || rebates[index].status == "pending" ) {%>
+                            <form action="/student/rebatewithdraw" method="post">
+                                <button name="button" type="submit" class="btn btn-primary mt-3" value="<%= rebates[index]._id %>">Withdaw</button>
+                            </form>
+                            <% } %>
+                          </div>
+                        <% } %>
+                        <% if(active===0) { %>
+                            <p><b>no active rebate requests</b></p>
+                        <% } %>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="card">
+                        <h2>Apply for rebate</h2>
+                        <form action="/rebate" method="post">
+                          <div class="mb-3">
+                            <label for="startingDate" class="form-label"><b>Starting date</b></label>
+                            <input type="date" id="startingDate" class="form-control" name="startDate">
+                            <label for="endingDate" class="form-label"><b>Ending Date</b></label>
+                            <input type="date" id="endingDate" class="form-control" name="endDate">
+                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  
 
-                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
-                    
-                </div>
                 <script>
                     const flag = '<%= flag %>';
                     if(flag==1){
-                        const message = "Your current request overlaps with your past requests, please try some other dates.";
+                        const message = "There already exists an active rebate request";
+                        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                        document.getElementById('errorMessage').textContent = message;
+                        errorModal.show();
+                    }
+                    else if(flag==2){
+                        const message = "you can't withdraw your rebate request past your starting date of request after aprooval and you can't put up another request before ending date after approval untill withdrawn.";
                         const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
                         document.getElementById('errorMessage').textContent = message;
                         errorModal.show();
@@ -66,7 +106,7 @@
         <div class="box">
             <% for (let i=0; i < rebates.length; i++) { %>
                 <form class="item" action="/rebate/remove" method="post">
-                    <button type="submit" class="remove" name="button" value="<%=rebates[i]._id%>">X</button>
+                    <% if(rebates[i].displayStatus == "Inactive") { %>
                     <p>
                     <table>
                         <tr>
@@ -94,6 +134,7 @@
                         </tr>
                     </table>
                     </p>
+                    <% } %>
                 </form>
                 <% }%>
         </div>

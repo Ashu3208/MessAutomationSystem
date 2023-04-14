@@ -9,6 +9,7 @@ const Bill = require('../models/Bill')
 const User = require('../models/User')
 const Item = require('../models/Item')
 const Rebate = require('../models/Rebate')
+const Pastbill = require('../models/past_bills')
 // const popup = require('popups');
 
 // create routes
@@ -137,11 +138,33 @@ router.post("/complain/remove", async (req, res) => {
 
 router.get("/rebate", async (req, res) => {
     let flag= req.query.flag;
+    const curr_date = new Date().getTime();
+    const rebates = await Rebate.find({ rollNo : req.user.rollNumber });
+    let index;
+    let active =0;
+    let start = 0;
+    let start_date = "NA";
+    let end_date = "NA";
+    for(let i=0;i<rebates.length;i++){
+        if(rebates[i].displayStatus == "Active"){
+            if(curr_date > new Date(rebates[i].endDate).getTime()){
+                rebates[i].displayStatus = "Inactive";
+                await Rebate.findByIdAndUpdate(rebates[i]._id,{displayStatus:"Inactive"});
+            }
+            else{
+                start_date = rebates[i].startDate;
+                end_date = rebates[i].endDate;
+                start = new Date((rebates[i]).startDate).getTime();
+                active = 1;
+                index=i;
+            }
+        }
+    }
     if (req.isAuthenticated()) {
         if (process.env.SUPERUSER === 'true') {
-            res.redirect("/")
+            res.redirect("/") 
         } else {
-            res.render("student/rebate", { rebates: await Rebate.find({ rollNo: req.user.rollNumber }), message: "",flag: flag})
+            res.render("student/rebate", { rebates: rebates , message: "",flag: flag,curr_date: curr_date , active : active , start: start , start_date: start_date , end_date: end_date,index:index,status: rebates[index].status})
         }
 
     }
@@ -160,17 +183,23 @@ router.post("/rebate", async (req, res) => {
     const curr_date = new Date();
     const startDate = date1.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
     const endDate = date2.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
-    const student_prev_rebates=await Rebate.find({ rollNo: req.user.rollNumber });
+    const student_prev_rebates=await Rebate.find({ rollNo: req.user.rollNumber,displayStatus:"Active"});
     let flag=0;
-    let prev_date_1,prev_date_2;
-    for(let i=0;i<(student_prev_rebates).length;i++){
-        prev_date_1 = new Date(student_prev_rebates[i].startDate);
-        prev_date_2 = new Date(student_prev_rebates[i].endDate);
-        if((date1.getTime() >= prev_date_1.getTime() && date1.getTime() <= prev_date_2.getTime()) || (date2.getTime() >= prev_date_1.getTime() && date2.getTime() <= prev_date_2.getTime())){
-            flag=1;
-            break;
-        }
+    // let prev_date_1,prev_date_2;
+    // for(let i=0;i<(student_prev_rebates).length;i++){
+    //     prev_date_1 = new Date(student_prev_rebates[i].startDate);
+    //     prev_date_2 = new Date(student_prev_rebates[i].endDate);
+    //     if((date1.getTime() >= prev_date_1.getTime() && date1.getTime() <= prev_date_2.getTime()) || (date2.getTime() >= prev_date_1.getTime() && date2.getTime() <= prev_date_2.getTime())){
+    //         flag=1;
+    //         break;
+    //     }
+    // }
+    console.log(student_prev_rebates.length);
+    if(student_prev_rebates.length != 0){
+        flag=1;
     }
+
+
     if (date2.getTime() >= date1.getTime() && date1.getTime() >= curr_date.getTime() && flag == 0) {
         const diff = Math.abs(date2.getTime() - date1.getTime()) + 1;
         const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
@@ -180,8 +209,10 @@ router.post("/rebate", async (req, res) => {
             startDate: startDate,
             endDate: endDate,
             days: diffDays,
-            status: "pending"
+            status: "pending",
+            displayStatus: "Active"
         })
+        flag=2;
         rebate.save()
     }
     
@@ -189,9 +220,10 @@ router.post("/rebate", async (req, res) => {
     // res.jsonp({error : flag})
 })
 
-router.post("/rebate/remove", async (req, res) => {
+router.post("/student/rebatewithdraw", async (req, res) => {
     await Rebate.findByIdAndRemove(req.body.button)
     console.log("removed successfully")
+    console.log(req.body.button)
     res.redirect("/rebate")
 })
 
@@ -223,8 +255,12 @@ try {
             }
         }
     } catch (error) {
-        return res.send(`<script>alert("Extras unavailable.Please Try again"); window.location.href='/extras';</script>`);
+        return res.send(`
+        <script>
+        alert("no extras available at this movement,please try again later.")
+        window.location.href='/extras';</script>`);
     }
+
     await User.findByIdAndUpdate(req.user._id, { $inc: { extrasCost: totalCost } })
     if (items.length != 0) {
         const order = new Order({
@@ -306,10 +342,12 @@ router.post("/manager/rebateApproval/approved", async (req, res) => {
     
     res.redirect("/manager/rebateApproval")
 })
+
 router.post("/manager/rebateApproval/rejected", async (req, res) => {
-    await Rebate.findByIdAndUpdate(req.body.button, { status: "Rejected" })
+    await Rebate.findByIdAndUpdate(req.body.button, { status: "Rejected" , displayStatus: "Inactive"})
     res.redirect("/manager/rebateApproval")
 })
+
 router.get("/manager/complaints", async (req, res) => {
     if (req.isAuthenticated()) {
         if (process.env.SUPERUSER === 'true') {
@@ -468,11 +506,13 @@ router.post("/manager/extras/remove", async (req, res) => {
     await Extra.findByIdAndRemove(req.body.button)
     res.redirect("/manager/extras");
 })
-router.get("/manager/accessAccount", (req, res) => {
+
+router.get("/manager/accessAccount", async (req, res) => {
+    let flag = req.query.flag;
     if (req.isAuthenticated()) {
 
         if (process.env.SUPERUSER === 'true') {
-            res.render("manager/accessAccount")
+            res.render("manager/accessAccount",{users: await User.find({ rollNo:req.user.rollNumber }),flag: flag})
         } else {
             res.redirect("/")
         }
@@ -495,7 +535,28 @@ router.post("/manager/accessAccount", async (req, res) => {
     const date2 = (new Date(end)).getTime();
     console.log(formattedStart + formattedEnd);
 
-    if (date2 >= date1) {
+    const pastBills = await Pastbill.find();
+
+    let flag=0;
+    let prev_date_1,prev_date_2;
+
+    for(let i=0;i<pastBills.length;i++){
+        prev_date_1 = new Date(pastBills[i].startDate);
+        prev_date_2 = new Date(pastBills[i].endDate);
+        if((date1 >= prev_date_1.getTime() && date1 <= prev_date_2.getTime()) || (date2 >= prev_date_1.getTime() && date2 <= prev_date_2.getTime())){
+            flag=1;
+            break;
+        }
+    }
+
+    if (date2 >= date1 && flag==0) {
+        
+        const pastbill = new Pastbill({
+            startDate:formattedStart,
+            endDate:formattedEnd
+        })
+        pastbill.save();
+
         const workingDays = Math.ceil((Math.abs(date2 - date1)) / (1000 * 3600 * 24)) + 1;
         console.log(workingDays);
         for (let i = 0; i < students.length; i++) {
@@ -521,7 +582,7 @@ router.post("/manager/accessAccount", async (req, res) => {
             await User.findOneAndUpdate({ rollNumber: bill.rollNo }, { extrasCost: 0, rebateDays: 0, $inc: { dues: totalCost } })
         }
     }
-    res.redirect("/manager/accessAccount")
+    res.redirect("/manager/accessAccount?flag="+flag)
 })
 
 router.post("/manager/accessAccount/update", async (req, res) => {
@@ -532,5 +593,7 @@ router.post("/manager/accessAccount/update", async (req, res) => {
     }
     res.redirect("/manager/accessAccount")
 })
+
+
 
 module.exports = router
