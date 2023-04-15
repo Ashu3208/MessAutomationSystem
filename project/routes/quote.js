@@ -563,9 +563,27 @@ router.post("/manager/accessAccount", async (req, res) => {
         console.log(workingDays);
         for (let i = 0; i < students.length; i++) {
             let totalCost = 0;
-            // const studentRebate = 
+            const studentRebate = await Rebate.find({ rollNo : students[i].rollNumber});
+            let rebate_days = 0;
+            for(let i=0;i<studentRebate.length;i++){
+                const rebate_start = new Date(studentRebate[i].startDate).getTime();
+                const rebate_end = new Date(studentRebate[i].endDate).getTime();
+                if( rebate_start <= date1 && (rebate_end >= date1 && rebate_end <= date2 ) ){
+                    rebate_days += Math.ceil((Math.abs(rebate_end - date1)) / (1000 * 3600 * 24)) + 1;
+                }
+                else if ((rebate_start >= date1 && rebate_start <= date2) && (rebate_end >= date2)){
+                    rebate_days += Math.ceil((Math.abs(date2 - rebate_start)) / (1000 * 3600 * 24)) + 1;
+                }
+                else if((rebate_start > date1 && rebate_start < date2) && (rebate_end > date1 && rebate_end < date2)){
+                    rebate_days += Math.ceil((Math.abs(rebate_end - rebate_start)) / (1000 * 3600 * 24)) + 1;
+                }
+                else if((rebate_start < date1) && (rebate_end > date2)){
+                    rebate_days += Math.ceil((Math.abs(date2 - date1)) / (1000 * 3600 * 24)) + 1;
+                }
+            }
+
             if (workingDays >= students[i].rebateDays) {
-                totalCost = (workingDays - students[i].rebateDays) * req.body.dailyCost + students[i].extrasCost;
+                totalCost = (workingDays - rebate_days) * req.body.dailyCost + students[i].extrasCost;
             } else {
                 totalCost = students[i].extrasCost;
             }
