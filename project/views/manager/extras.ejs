@@ -1,46 +1,47 @@
 <%- include("../partials/head") %>
-<title>Extras</title>
-<%- include("../partials/head2") %>
-    <%- include("navbar") %>
-    <style>
-       .extras{
-        max-width: fit-content;
-        margin: 50px auto;
-       }
+    <title>Extras</title>
+    <%- include("../partials/head2") %>
+        <%- include("navbar") %>
+            <style>
+                .extras {
+                    max-width: fit-content;
+                    margin: 50px auto;
+                }
+            </style>
+            <div class="box" id="heading">
+                <h1> Extras </h1>
+            </div>
+            <div class="extras">
+                <form action="/manager/extras/remove" method="post">
 
-    </style>
-        <div class="box" id="heading">
-            <h1> Extras </h1>
-        </div>
-        <div class="extras">
-        <form action="/manager/extras/remove" method="post">
-            
-                <div class="mb-3">
-                    <div class="table-grid">
-                        <% for (let i=0; i < extrasMenu.length; i++) { %>
-                            <div class="grid-item"><b>Name:</b> </div>
-                            <div class="grid-item">
-                                <%=extrasMenu[i].name%>
-                            </div>
-                            <div class="grid-item"><b>Price:</b></div>
-                            <div class="grid-item">
-                                ₹<%=extrasMenu[i].price%>/-
-                            </div>
-                            <div class="grid-item"><button type="submit" class="remove" name="button"
-                                    value="<%=extrasMenu[i]._id%>">Remove</button>
-                            </div>
-                            <% }%>
-                    </div>
-               
-        </form>
-      
-        <form class="item" action="/manager/extras/add" method="post">
-            <input type="text" name="newItem" placeholder="Name" autocomplete="off" maxlength="30" class="newItem" required>
-            <input type="number" class="duePaid"name="price" placeholder="Price" autocomplete="off" min="1" max="500" required>
-            <button type="submit" class="add" name="button" value="1">Add</button>
-        </form>
-    </div>
-        </div>
-        </body>
+                    <div class="mb-3">
+                        <div class="table-grid">
+                            <% for (let i=0; i < extrasMenu.length; i++) { %>
+                                <div class="grid-item"><b>Name:</b> </div>
+                                <div class="grid-item">
+                                    <%=extrasMenu[i].name%>
+                                </div>
+                                <div class="grid-item"><b>Price:</b></div>
+                                <div class="grid-item">
+                                    ₹<%=extrasMenu[i].price%>/-
+                                </div>
+                                <div class="grid-item"><button type="submit" class="remove" name="button"
+                                        value="<%=extrasMenu[i]._id%>">Remove</button>
+                                </div>
+                                <% }%>
+                        </div>
 
-        </html>
+                </form>
+
+                <form class="item" action="/manager/extras/add" method="post">
+                    <input type="text" name="newItem" placeholder="Name" autocomplete="off" maxlength="30"
+                        class="newItem" required>
+                    <input type="number" class="duePaid" name="price" placeholder="Price" autocomplete="off" min="1"
+                        max="500" required>
+                    <button type="submit" class="add" name="button" value="1">Add</button>
+                </form>
+            </div>
+            </div>
+            </body>
+
+            </html>
