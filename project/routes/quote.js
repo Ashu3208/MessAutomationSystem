@@ -660,35 +660,48 @@ router.post("/manager/accessAccount", async (req, res) => {
 
   if (date2 >= date1 && flag == 0) {
 
-    const pastbill = new Pastbill({
-      startDate: formattedStart,
-      endDate: formattedEnd
-    })
-    pastbill.save();
+        const workingDays = Math.ceil((Math.abs(date2 - date1)) / (1000 * 3600 * 24)) + 1;
+        console.log(workingDays);
+        for (let i = 0; i < students.length; i++) {
+            const workingDays = Math.ceil((Math.abs(date2 - date1)) / (1000 * 3600 * 24)) + 1;
+            console.log(workingDays);
+            let totalCost = 0;
+            const studentRebate = await Rebate.find({ rollNo : students[i].rollNumber});
+            let rebate_days = 0;
+            for(let i=0;i<studentRebate.length;i++){
+                const rebate_start = new Date(studentRebate[i].startDate).getTime();
+                const rebate_end = new Date(studentRebate[i].endDate).getTime();
+                if( rebate_start <= date1 && (rebate_end >= date1 && rebate_end <= date2 ) ){
+                    rebate_days += Math.ceil((Math.abs(rebate_end - date1)) / (1000 * 3600 * 24)) + 1;
+                }
+                else if ((rebate_start >= date1 && rebate_start <= date2) && (rebate_end >= date2)){
+                    rebate_days += Math.ceil((Math.abs(date2 - rebate_start)) / (1000 * 3600 * 24)) + 1;
+                }
+                else if((rebate_start > date1 && rebate_start < date2) && (rebate_end > date1 && rebate_end < date2)){
+                    rebate_days += Math.ceil((Math.abs(rebate_end - rebate_start)) / (1000 * 3600 * 24)) + 1;
+                }
+                else if((rebate_start < date1) && (rebate_end > date2)){
+                    rebate_days += Math.ceil((Math.abs(date2 - date1)) / (1000 * 3600 * 24)) + 1;
+                }
+            }
 
-    const workingDays = Math.ceil((Math.abs(date2 - date1)) / (1000 * 3600 * 24)) + 1;
-    console.log(workingDays);
-    for (let i = 0; i < students.length; i++) {
-      let totalCost = 0;
-      // const studentRebate = 
-      if (workingDays >= students[i].rebateDays) {
-        totalCost = (workingDays - students[i].rebateDays) * req.body.dailyCost + students[i].extrasCost;
-      } else {
-        totalCost = students[i].extrasCost;
-      }
-
-      const bill = new Bill({
-        rollNo: students[i].rollNumber,
-        startDate: formattedStart,
-        endDate: formattedEnd,
-        workingDays: workingDays,
-        dailyCost: req.body.dailyCost,
-        rebateDays: students[i].rebateDays,
-        extrasCost: students[i].extrasCost,
-        total: totalCost
-      })
-      bill.save()
-      await User.findOneAndUpdate({ rollNumber: bill.rollNo }, { extrasCost: 0, rebateDays: 0, $inc: { dues: totalCost } })
+            if (workingDays >= students[i].rebateDays) {
+                totalCost = (workingDays - rebate_days) * req.body.dailyCost + students[i].extrasCost;
+            } else {
+                totalCost = students[i].extrasCost;
+            }
+            const bill = new Bill({
+                rollNo: students[i].rollNumber,
+                startDate: formattedStart,
+                endDate: formattedEnd,
+                workingDays: workingDays,
+                dailyCost: req.body.dailyCost,
+                rebateDays: students[i].rebateDays,
+                extrasCost: students[i].extrasCost,
+                total: totalCost
+              })
+              bill.save()
+              await User.findOneAndUpdate({ rollNumber: bill.rollNo }, { extrasCost: 0, rebateDays: 0, $inc: { dues: totalCost } })
     }
   }
   res.redirect("/manager/accessAccount?flag=" + flag)
