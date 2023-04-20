@@ -46,8 +46,32 @@
                                     document.getElementById('errorMessage').textContent = message;
                                     errorModal.show();
                                 }
-                                if (flag == 2) {
+                                else if (flag == 2) {
                                     const message = "Starting Date cannot be greater than Ending Date" ;
+                                    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                                    document.getElementById('errorMessage').textContent = message;
+                                    errorModal.show();
+                                }
+                                else if (flag == 3) {
+                                    const message = "Bill has been generated" ;
+                                    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                                    document.getElementById('errorMessage').textContent = message;
+                                    errorModal.show();
+                                }
+                                else if(flag == 4){
+                                    const message = "account has been updated" ;
+                                    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                                    document.getElementById('errorMessage').textContent = message;
+                                    errorModal.show();
+                                }
+                                else if(flag == 5){
+                                    const message = "User not found" ;
+                                    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                                    document.getElementById('errorMessage').textContent = message;
+                                    errorModal.show();
+                                }
+                                else if(flag == 6){
+                                    const message = "Enter new dues and new extras dues to update account section" ;
                                     const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
                                     document.getElementById('errorMessage').textContent = message;
                                     errorModal.show();

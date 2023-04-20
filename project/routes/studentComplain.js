@@ -6,12 +6,13 @@ const Complaint = require("../models/Complaint");
 const User = require("../models/User");
 
 router.get("/complain", async (req, res) => {
+  const flag = req.query.flag;
   if (req.isAuthenticated()) {
     if (process.env.SUPERUSER === "true") {
       res.redirect("/");
     } else {
       res.render("student/complain", {
-        complaints: await Complaint.find({ rollNo: req.user.rollNumber }),
+        complaints: await Complaint.find({ rollNo: req.user.rollNumber }),flag : flag
       });
     }
   } else {
@@ -20,6 +21,7 @@ router.get("/complain", async (req, res) => {
 });
 
 router.post("/complain", async (req, res) => {
+  let flag = 0;
   const complaint = new Complaint({
     rollNo: req.user.rollNumber,
     issue: req.body.text,
@@ -33,13 +35,14 @@ router.post("/complain", async (req, res) => {
     await complaint.save();
   }
 
-  res.redirect("/complain");
+  res.redirect("/complain?flag=" + flag);
 });
 
 router.post("/complain/remove", async (req, res) => {
+  const flag = 1;
   await Complaint.findByIdAndRemove(req.body.button);
   console.log("removed successfully");
-  res.redirect("/complain");
+  res.redirect("/complain?flag=" + flag);
 });
 
 module.exports = router;

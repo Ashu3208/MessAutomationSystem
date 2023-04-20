@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const Item = require("../models/Item");
 
 router.get("/manager/messMenu", async (req, res) => {
+  const flag = req.query.flag;
   if (req.isAuthenticated()) {
     if (process.env.SUPERUSER === "true") {
       const menu = await Item.find({});
@@ -180,6 +181,7 @@ router.get("/manager/messMenu", async (req, res) => {
         }
       }
       res.render("manager/messMenu", {
+        flag : flag,
         mob: a1,
         mobe: a2,
         mol: a3,
