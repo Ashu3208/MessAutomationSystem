@@ -5,10 +5,11 @@ const mongoose = require("mongoose");
 const Complaint = require("../models/Complaint");
 
 router.get("/manager/complaints", async (req, res) => {
+  const flag = req.query.flag;
   if (req.isAuthenticated()) {
     if (process.env.SUPERUSER === "true") {
       res.render("manager/complaints", {
-        complaints: await Complaint.find({ reply: "pending" }),
+        complaints: await Complaint.find({ reply: "pending" }), flag : flag ,
       });
     } else {
       res.redirect("/");
@@ -27,8 +28,8 @@ router.post("/manager/complaints", async (req, res) => {
       reply: req.body.reply,
     });
   }
-
-  res.redirect("/manager/complaints");
+  const flag = 1;
+  res.redirect("/manager/complaints?flag=" + flag);
 });
 
 module.exports = router;

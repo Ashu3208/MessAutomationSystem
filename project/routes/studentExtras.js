@@ -19,6 +19,7 @@ router.get("/extras", async (req, res) => {
   });
 
 router.post("/extras", async (req, res) => {
+
     const list = await Extra.find({});
     const items = [],
       prices = [],

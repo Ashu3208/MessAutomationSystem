@@ -147,6 +147,7 @@ router.post("/manager/accessAccount", async (req, res) => {
         { rollNumber: bill.rollNo },
         { extrasCost: 0, $inc: { dues: totalCost } }
       );
+      flag = 3;
     }
 
     const pastBill = new PastBill({
@@ -162,8 +163,9 @@ router.post("/manager/accessAccount", async (req, res) => {
 });
 
 router.post("/manager/accessAccount/find", async (req, res) => {
+  let flag = 0;
   const user = await User.findOne({ rollNumber: req.body.rollNumber });
-
+  
   if (user) {
     if (user.dues == 0) {
       req.session.currentDues = 0;
@@ -176,16 +178,19 @@ router.post("/manager/accessAccount/find", async (req, res) => {
       req.session.currentExtras = parseInt(user.extrasCost);
     }
     req.session.currentRollNumber = parseInt(user.rollNumber);
+    flag = 6;
   } else {
     // Handle case when user is not found
+    flag = 5;
     console.log("User not found");
   }
 
-  res.redirect("/manager/accessAccount");
+  res.redirect("/manager/accessAccount?flag=" + flag);
 });
 
 router.post("/manager/accessAccount/update", async (req, res) => {
   console.log(req.body.newDues)
+  let flag = 0;
   await User.updateOne(
     { rollNumber: req.body.rollNumber },
     { dues: parseInt(req.body.newDues), extrasCost: parseInt(req.body.newExtras) }
@@ -205,12 +210,14 @@ router.post("/manager/accessAccount/update", async (req, res) => {
     }
     req.session.currentRollNumber = parseInt(user.rollNumber);
     console.log(req.session.currentDues);
+    flag = 4;
   } else {
+    
     // Handle case when user is not found
     console.log("User not found");
   }
 
-  res.redirect("/manager/accessAccount");
+  res.redirect("/manager/accessAccount?flag=" + flag);
 });
 
 module.exports = router;

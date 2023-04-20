@@ -9,7 +9,7 @@ router.post("/manager/messMenu/add", async (req, res) => {
     name: req.body.name.trim().replace(/\s+/g, " "),
     code: req.body.code,
   });
-
+  let flag = 0;
   try {
     function isWhitespaceString(str) {
       return /^\s*$/.test(str);
@@ -30,6 +30,7 @@ router.post("/manager/messMenu/add", async (req, res) => {
 
           if (result.modifiedCount === 0 && result2.modifiedCount === 0) {
             await item.save();
+            flag = 1;
             console.log("no copy in regular and extras");
           } else {
             await Item.updateOne(
@@ -60,6 +61,7 @@ router.post("/manager/messMenu/add", async (req, res) => {
           );
           if (result.modifiedCount === 0 && result2.modifiedCount === 0) {
             await item.save();
+            flag = 1;
             console.log("no copy in regular and extras");
           } else {
             await Item.updateOne(
@@ -92,12 +94,13 @@ router.post("/manager/messMenu/add", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  res.redirect("/manager/messMenu");
+  res.redirect("/manager/messMenu?flag=" + flag);
 });
 
 router.post("/manager/messMenu/remove", async (req, res) => {
+  let flag = 2;
   await Item.findByIdAndRemove(req.body.button);
-  res.redirect("/manager/messMenu");
+  res.redirect("/manager/messMenu?flag=" + flag);
 });
 
 module.exports = router;
