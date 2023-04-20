@@ -3,9 +3,11 @@
 <%- include("../partials/head2") %>
     <%- include("navbar") %>
     <style>
-        .extras{
-         max-width: fit-content;
-         margin: 50px auto;
+        
+        input[type="number"]{
+            width:50px;
+            border-color:dodgerblue;
+            text-align: end;
         }
  
      </style>
@@ -13,7 +15,8 @@
         <div class="box" id="heading">
             <h1> Extras </h1>
         </div>
-        <div class="extras">
+        <div class="box">
+            <br>
         <form action="/extras" method="post">
                 <div class="mb-3">
                     <div class="table-grid">

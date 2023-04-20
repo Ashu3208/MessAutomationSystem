@@ -135,7 +135,9 @@ router.post("/otp", async (req, res) => {
         rollNumber: req.body.rollNumber,
         username: req.body.email,
         extrasCost: 0,
-        rebateDays: 0,
+        startingDate:"NA",
+        endingDate:"NA",
+        rebateStatus:"NA",
         dues: 0,
       },
       req.body.password
@@ -173,7 +175,7 @@ router.post("/auth/login", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      if (user.username === "admin@iitk.com" && user.password == "admin123") {
+      if (user.username === "Admin@iitk.ac.in" && user.password == "Admin@123") {
         process.env.SUPERUSER = "true";
         passport.authenticate("local")(req, res, function () {
           res.redirect("/manager/home");

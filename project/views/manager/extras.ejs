@@ -3,15 +3,24 @@
     <%- include("../partials/head2") %>
         <%- include("navbar") %>
             <style>
-                .extras {
-                    max-width: fit-content;
-                    margin: 50px auto;
-                }
+                
+            input[type="number"]{
+                border-color:dodgerblue;
+                text-align: end;
+                max-width:400px
+            }
+            input[type="text"]{
+                width: 400px;
+
+            }
+
+
             </style>
             <div class="box" id="heading">
                 <h1> Extras </h1>
             </div>
-            <div class="extras">
+            <div class="box">
+                <br>
                 <form action="/manager/extras/remove" method="post">
 
                     <div class="mb-3">
@@ -34,11 +43,11 @@
                 </form>
 
                 <form class="item" action="/manager/extras/add" method="post">
-                    <input type="text" name="newItem" placeholder="Name" autocomplete="off" maxlength="30"
+                    <input type="text" name="newItem" placeholder="Name" autocomplete="off" maxlength="20"
                         class="newItem" required>
                     <input type="number" class="duePaid" name="price" placeholder="Price" autocomplete="off" min="1"
                         max="500" required>
-                    <button type="submit" class="add" name="button" value="1">Add</button>
+                    <button type="submit" class="add" name="button" value="1" style="margin-left: 50px;">Add</button>
                 </form>
             </div>
             </div>

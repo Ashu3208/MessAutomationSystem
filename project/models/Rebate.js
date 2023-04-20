@@ -16,7 +16,6 @@ const rebateSchema = new mongoose.Schema({
         min:1
     },
     status:String,
-    displayStatus:String,
     daysUsed:Number
 })
 

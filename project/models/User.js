@@ -19,14 +19,22 @@ const userSchema = new mongoose.Schema({
     type: Number,
     min: 0,
   },
-  rebateDays: {
-    type: Number,
-    min: 0,
+  startingDate:{
+    type:String,
+    required:true
+  },
+  endingDate:{
+    type:String,
+    required:true
+  },
+  rebateStatus:{
+    type:String,
+    required:true
   },
   dues: {
     type: Number,
     min: 0,
-  },
+  }
 });
 
 //hash password using passport-local-mongoose plugin
