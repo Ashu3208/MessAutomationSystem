@@ -54,10 +54,10 @@
               <div class="mb-3">
                 
                 <label for="startingDate2" class="form-label"><b>Starting date</b></label>
-                <input type="date" id="startingDate2" class="form-control" name="startDate">
+                <input type="date" id="startingDate2" class="form-control" name="startDate" required>
 
                 <label for="endingDate2" class="form-label"><b>Ending Date</b></label>
-                <input type="date" id="endingDate2" class="form-control" name="endDate">
+                <input type="date" id="endingDate2" class="form-control" name="endDate" required>
                 <br><br><br>
                 <button type="submit" class="btn btn-primary mt-3">Request</button>
               </div>
@@ -95,7 +95,7 @@
           const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
           document.getElementById('errorMessage').textContent = message;
           errorModal.show();
-        }
+        } 
         var startInput = document.getElementById("startingDate");
         startInput.addEventListener("keydown", function (event) {
           event.preventDefault();

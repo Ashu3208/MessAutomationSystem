@@ -5,7 +5,9 @@ router.get("/register", (req, res) => {
   if (req.isAuthenticated()) {
     res.redirect("/login");
   } else {
-    res.render("register");
+    let flag = 0;
+    flag = req.query.flag;
+    res.render("register", { flag: flag, email: req.query.email });
   }
 });
 
@@ -13,7 +15,9 @@ router.get("/login", (req, res) => {
   if (req.isAuthenticated()) {
     res.redirect("/");
   } else {
-    res.render("login");
+    let flag = 0;
+    flag = req.query.flag;
+    res.render("login", { flag: flag });
   }
 });
 

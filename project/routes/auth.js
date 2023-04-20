@@ -63,6 +63,9 @@ router.post("/auth/register", async (req, res) => {
               const otp = new Otp({
                 otpSent: otpValue,
                 email: email,
+                rollNumber: req.body.rollNumber,
+                name: req.body.name,
+                password: req.body.password,
               });
               await otp.save();
             } catch (err) {
@@ -75,23 +78,17 @@ router.post("/auth/register", async (req, res) => {
               text: `Your OTP for website registration is ${otpValue}. This OTP is valid for 2 minutes. Please do not share this OTP with anyone for security reasons. Thank you for using IITK Mess Automation!`,
             };
 
-            sgMail
-              .send(msg)
-              .then(() => {
-                console.log("Email sent");
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-            res.redirect(
-              `/otp?email=${encodeURIComponent(
-                email
-              )}&name=${encodeURIComponent(
-                req.body.name
-              )}&rollNumber=${encodeURIComponent(
-                req.body.rollNumber
-              )}&password=${btoa(req.body.password)}`
-            );
+            let flag = 0;
+            try {
+              await sgMail.send(msg);
+              console.log("Email sent");
+              flag = 1;
+              console.log(flag);
+            } catch (error) {
+              console.error(error);
+            }
+
+            res.redirect("/register?flag=" + flag + "&email=" + email);
           }
         } else {
           console.log("Invalid email");
@@ -110,55 +107,35 @@ router.post("/auth/register", async (req, res) => {
   }
 });
 
-router.get("/otp", (req, res) => {
-  // Render the OTP page with the email
-  res.render("otp", {
-    email: req.query.email,
-    rollNumber: req.query.rollNumber,
-    password: atob(req.query.password),
-    name: req.query.name,
-  });
-});
-
 router.post("/otp", async (req, res) => {
   const otp = await Otp.findOne({
     email: req.body.email,
   });
 
   if (!otp) {
-    return res.send(`<script>alert("Sorry, your OTP has expired. It appears that you have not completed the registration process yet. Please register again to receive a new OTP and complete your registration.");
-    window.location.href = "/register";</script>`);
+    res.redirect("/register?flag=2&email=" + req.body.email);
   } else if (parseInt(req.body.otp) === parseInt(otp.otpSent)) {
     const registerUser = await User.register(
       {
-        name: req.body.name,
-        rollNumber: req.body.rollNumber,
-        username: req.body.email,
+        name: otp.name,
+        rollNumber: otp.rollNumber,
+        username: otp.email,
         extrasCost: 0,
-        startingDate:"NA",
-        endingDate:"NA",
-        rebateStatus:"NA",
+        startingDate: "NA",
+        endingDate: "NA",
+        rebateStatus: "NA",
         dues: 0,
       },
-      req.body.password
+      otp.password
     );
 
     if (registerUser) {
-      return res.send(`<script>alert("OTP verification successful! You may now proceed to login.");
-      window.location.href = "/login";</script>`);
+      res.redirect("/login?flag=1");
     } else {
       res.redirect("/register");
     }
   } else {
-    return res.send(`<script>alert("Sorry, the OTP you entered is incorrect. Please try again.");
-    window.location.href = "/otp?email=${encodeURIComponent(
-      req.body.email
-    )}&name=${encodeURIComponent(
-      req.body.name
-    )}&rollNumber=${encodeURIComponent(req.body.rollNumber)}&password=${btoa(
-      req.body.password
-    )}";
-    </script>`);
+    res.redirect("/register?flag=3&email=" + req.body.email);
   }
 });
 
@@ -175,7 +152,10 @@ router.post("/auth/login", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      if (user.username === "Admin@iitk.ac.in" && user.password == "Admin@123") {
+      if (
+        user.username === "Admin@iitk.ac.in" &&
+        user.password == "Admin@123"
+      ) {
         process.env.SUPERUSER = "true";
         passport.authenticate("local")(req, res, function () {
           res.redirect("/manager/home");
