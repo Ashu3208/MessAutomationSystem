@@ -50,13 +50,9 @@ router.post("/auth/register", async (req, res) => {
           });
           if (existingUser) {
             // username already exists, send an alert to the user
-            return res.send(
-              `<script>alert("Sorry, that email address is already in use. Please try logging in or use a different email address to register."); window.location.href='/register';</script>`
-            );
+            return res.redirect("/register?flag=4")
           } else if (existingroll) {
-            return res.send(
-              `<script>alert("Roll number already exists. Please choose a different roll number."); window.location.href='/register';</script>`
-            );
+            return res.redirect("/register?flag=5")
           } else {
             const otpValue = Math.floor(Math.random() * 1000000);
             try {

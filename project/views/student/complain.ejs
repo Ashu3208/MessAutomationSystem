@@ -9,7 +9,6 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="errorModalLabel">NOTE</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <p id="errorMessage"></p>
@@ -61,7 +60,19 @@
             <script>
                 const flag = '<%=flag%>';
                 if (flag == 1) {
-                    const message = "Compaint withdrawn .";
+                    const message = "Compaint deleted .";
+                    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                    document.getElementById('errorMessage').textContent = message;
+                    errorModal.show();
+                }
+                if (flag == 2) {
+                    const message = "Compaint sent .";
+                    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                    document.getElementById('errorMessage').textContent = message;
+                    errorModal.show();
+                }
+                if (flag == 3) {
+                    const message = "Invalid Compaint .";
                     const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
                     document.getElementById('errorMessage').textContent = message;
                     errorModal.show();

@@ -11,7 +11,9 @@ router.get("/extras", async (req, res) => {
       if (process.env.SUPERUSER === "true") {
         res.redirect("/");
       } else {
-        res.render("student/extras", { extrasMenu: await Extra.find({}) });
+        let flag=0;
+        flag=req.query.flag;
+        res.render("student/extras", { extrasMenu: await Extra.find({}) ,flag:flag});
       }
     } else {
       res.redirect("/login");
@@ -21,9 +23,15 @@ router.get("/extras", async (req, res) => {
 router.post("/extras", async (req, res) => {
 
     const list = await Extra.find({});
+
+    if(list.length == 0){
+      return res.redirect("/extras?flag=1");
+    }
     const items = [],
       prices = [],
-      quantities = [];
+      quantities = [],
+      statuses=[],
+      codes=[];
     let totalCost = 0;
     try {
       for (let i = 0; i < req.body.quantity.length; i++) {
@@ -31,14 +39,13 @@ router.post("/extras", async (req, res) => {
           items.push(list[i].name);
           prices.push(list[i].price);
           quantities.push(req.body.quantity[i]);
+          statuses.push("pending");
+          codes.push(Math.floor(Math.random() * 1000000));
           totalCost += req.body.quantity[i] * list[i].price;
         }
       }
     } catch (error) {
-      return res.send(`
-          <script>
-          alert("no extras available at this movement,please try again later.")
-          window.location.href='/extras';</script>`);
+      console.log(error)
     }
   
     await User.findByIdAndUpdate(req.user._id, {
@@ -50,6 +57,8 @@ router.post("/extras", async (req, res) => {
         itemName: items,
         quantity: quantities,
         price: prices,
+        status:statuses,
+        code:codes,
         total: totalCost,
       });
       order.save();

@@ -21,7 +21,7 @@ router.get("/complain", async (req, res) => {
 });
 
 router.post("/complain", async (req, res) => {
-  let flag = 0;
+  let flag = 3;
   const complaint = new Complaint({
     rollNo: req.user.rollNumber,
     issue: req.body.text,
@@ -33,6 +33,7 @@ router.post("/complain", async (req, res) => {
   }
   if (!isWhitespaceString(req.body.text)) {
     await complaint.save();
+    flag=2;
   }
 
   res.redirect("/complain?flag=" + flag);

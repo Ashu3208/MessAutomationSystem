@@ -74,11 +74,10 @@ router.post("/rebate", async (req, res) => {
     flag = 1;
   }
 
-  if (
-    date2.getTime() >= date1.getTime() &&
-    date1.getTime() >= curr_date.getTime() &&
-    flag == 0
-  ) {
+  if (date2.getTime() < date1.getTime()) {
+    flag = 3;
+  }
+  if (date1.getTime() >= curr_date.getTime() && flag == 0) {
     await User.findByIdAndUpdate(req.user._id, {
       startingDate: startDate,
       endingDate: endDate,
@@ -109,7 +108,7 @@ router.post("/student/rebatewithdraw", async (req, res) => {
     rebateStatus: "NA",
   });
   await ActiveRebate.findOneAndRemove({ rollNo: req.user.rollNumber });
-  res.redirect("/rebate");
+  res.redirect("/rebate?flag=4");
 });
 
 module.exports = router;

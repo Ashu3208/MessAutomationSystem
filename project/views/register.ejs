@@ -308,6 +308,24 @@
         );
         errorModal1.show();
       }
+      if ("<%=flag%>" == 4) {
+        const message =
+        "Sorry, that email address is already in use. Please try logging in or use a different email address to register.";
+        const errorModal = new bootstrap.Modal(
+          document.getElementById("errorModal2")
+        );
+        document.getElementById("errorMessage").textContent = message;
+        errorModal.show();
+      }
+      if ("<%=flag%>" == 5) {
+        const message =
+        "Sorry, that roll number is already in use. Please try logging in or use a different roll number to register."
+        const errorModal = new bootstrap.Modal(
+          document.getElementById("errorModal2")
+        );
+        document.getElementById("errorMessage").textContent = message;
+        errorModal.show();
+      }
     </script>
   </body>
 </html>
