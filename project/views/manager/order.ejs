@@ -20,7 +20,7 @@
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                     Close
                                 </button>
-                                <button type="submit" name="email" class="btn btn-primary" id="submitBtn" value="">
+                                <button type="submit" class="btn btn-primary" id="submitBtn" value="">
                                     Submit
                                 </button>
                             </div>
@@ -45,19 +45,13 @@
                     </div>
                 </div>
             </div>
-
             <div class="box" id="heading">
                 <h1> Orders </h1>
             </div>
-
+            <form action="/manager/order" method="post" >
             <div class="box">
-
-                <% for (let i=0; i < orders.length; i++) { %>
-
-
+                <% for ( i=0; i < orders.length; i++) { %>
                     <div class="item">
-
-
                         <table>
                             <tr>
                                 <td> </td>
@@ -65,81 +59,43 @@
                                 <td>
                                     <%=orders[i].rollNo%>
                                 </td>
-
                             </tr>
-
-
-
-
-                            <% for (let j=0; j < orders[i].itemName.length; j++) { %>
-
-                                <tr>
+                                <% for ( j=0; j < orders[i].itemName.length; j++) { %>
+                                  <tr>
                                     <td>
-                                        <% if(orders[i].status[j]=="pending" ) { %>
-                                            <form action="/manager/order" method="post" id="ordersForm">
-                                                <input name="orderId" value="<%=orders[i]._id%>" type="checkbox"
-                                                    id="checkBox"
-                                                    onchange="document.getElementById('ordersForm').submit()" unchecked>
-                                                <input type="hidden" value=<%=j%> name="index">
-                                            </form>
-
-                                            <%}%>
+                                      <% if(orders[i].status[j]=="pending" ) { %>
+                                         <button class="add"name="string"type="submit" value="<%=orders[i]._id%> <%=j%> <%=orders[i].itemName[j]%> ">◉</button> 
+                                      <%}%>
                                     </td>
                                     <td><b>Name:</b></td>
                                     <td>
-                                        <%=orders[i].itemName[j]%>
+                                      <%=orders[i].itemName[j]%>
                                     </td>
-
-
                                     <td><b>Price: </b></td>
                                     <td>₹<%=orders[i].price[j]%>/-
                                     </td>
-
-
                                     <td><b>Quantity:</b></td>
                                     <td>
-                                        <%=orders[i].quantity[j]%>
+                                      <%=orders[i].quantity[j]%>
                                     </td>
-
                                     <td><b>Status:</b></td>
                                     <td>
-                                        <%=orders[i].status[j]%>
+                                      <%=orders[i].status[j]%>
                                     </td>
-
-                                </tr>
-
+                                  </tr>
                                 <% }%>
                                     <tr>
                                         <td> </td>
                                         <td><b>Total: </b></td>
                                         <td>₹<%=orders[i].total%>/-
                                         </td>
-
                                     </tr>
                         </table>
-
-
-
                     </div>
-
-
                     <% }%>
             </div>
+        </form> 
             <script>
-                // Get all checkboxes with id "checkBox"
-                var checkboxes = document.querySelectorAll('#checkBox');
-
-                // Loop through all checkboxes and add event listener
-                checkboxes.forEach(function (checkbox) {
-                    checkbox.addEventListener('keydown', function (event) {
-                        event.preventDefault();
-                    });
-                });
-
-
-
-
-
                 if ("<%=session.flag%>" == 1) {
                     const errorModal = new bootstrap.Modal(
                         document.getElementById("errorModal")

@@ -35,7 +35,7 @@
               <label for="Status" class="form-label"><b>Status</b></label>
               <input id="Status" class="form-control" value="<%=student.rebateStatus%>">
 
-              <% if( student.rebateStatus=="pending" ) {%>
+              <% if( student.rebateStatus=="pending" || (new Date().getTime() < new Date(student.startingDate).getTime() && student.rebateStatus=="Approved")) {%>
                 <form action="/student/rebatewithdraw" method="post">
                   <button type="submit" class="btn btn-primary mt-3">Withdaw</button>
                 </form>
