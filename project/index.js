@@ -9,7 +9,21 @@ const ejs = require("ejs");
 
 //require routes
 const authRoute = require("./routes/auth");
-const quoteRoute = require("./routes/quote");
+const homeRoutes = require("./routes/home");
+const studentRebateRoutes = require("./routes/studentRebate");
+const managerRebateRoutes = require("./routes/managerRebate");
+const studentExtrasRoutes = require("./routes/studentExtras");
+const managerExtrasRoutes = require("./routes/managerExtras");
+const studentOrdersRoutes = require("./routes/studentOrders");
+const signRoutes = require("./routes/sign");
+const studentMenuRoute = require("./routes/studentMenu");
+const managerMenuGetRoute = require("./routes/managerMenuGet");
+const managerMenuPostRoute = require("./routes/managerMenuPost");
+const studentMessBillRoute = require("./routes/studentMessBill");
+const studentComplainRoute = require("./routes/studentComplain");
+const managerOrdersRoute = require("./routes/managerOrders");
+const managerComplaintsRoute = require("./routes/managerComplaints");
+const managerAccessAccountRoute = require("./routes/managerAccessAccount");
 
 // setup application
 const app = express();
@@ -28,6 +42,19 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  if (!req.session.currentRollNumber) {
+    req.session.currentRollNumber = '';
+  }
+  if (!req.session.currentDues) {
+    req.session.currentDues = '0';
+  }
+  if (!req.session.currentExtras) {
+    req.session.currentExtras = '0';
+  }
+  next();
+});
+
 // initialize passport
 app.use(passport.initialize());
 
@@ -42,7 +69,21 @@ mongoose
 
 // use routes
 app.use("/", authRoute);
-app.use("/", quoteRoute);
+app.use("/", homeRoutes);
+app.use("/", studentRebateRoutes);
+app.use("/", managerRebateRoutes);
+app.use("/", studentExtrasRoutes);
+app.use("/", managerExtrasRoutes);
+app.use("/", studentOrdersRoutes);
+app.use("/", signRoutes);
+app.use("/", studentMenuRoute);
+app.use("/", managerMenuGetRoute);
+app.use("/", managerMenuPostRoute);
+app.use("/", studentMessBillRoute);
+app.use("/", studentComplainRoute);
+app.use("/", managerOrdersRoute);
+app.use("/", managerComplaintsRoute);
+app.use("/", managerAccessAccountRoute);
 
 // Start the server
 app.listen(3000, () => console.log("Server is running"));

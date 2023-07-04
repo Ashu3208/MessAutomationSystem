@@ -3,17 +3,36 @@
 <%- include("../partials/head2") %>
     <%- include("navbar") %>
     <style>
-        .extras{
-         max-width: fit-content;
-         margin: 50px auto;
+        
+        input[type="number"]{
+            width:50px;
+            border-color:dodgerblue;
+            text-align: end;
         }
- 
+
      </style>
+
+        <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="errorModalLabel">NOTE</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p id="errorMessage"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="box" id="heading">
             <h1> Extras </h1>
         </div>
-        <div class="extras">
+        <div class="box">
+            <br>
         <form action="/extras" method="post">
                 <div class="mb-3">
                     <div class="table-grid">
@@ -40,6 +59,15 @@
             </div>
             
         </form>
+        <script>
+            const flag = '<%=flag%>';
+                if (flag == 1) {
+                    const message = "Extras are currently not available. Please try again later.";
+                    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                    document.getElementById('errorMessage').textContent = message;
+                    errorModal.show();
+                }
+        </script>
         </body>
 
         </html>

@@ -22,6 +22,79 @@
   </head>
 
   <body>
+    <div
+      class="modal"
+      id="errorModal1"
+      tabindex="-1"
+      aria-labelledby="errorModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form action="/otp" method="post">
+            <div class="modal-header">
+              <h5 class="modal-title" id="errorModalLabel">OTP VERIFICATION</h5>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <input
+                  type="text"
+                  name="otp"
+                  class="form-control"
+                  id="inputMessage"
+                  placeholder="Please enter the OTP you received via email"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                name="email"
+                class="btn btn-primary"
+                id="submitBtn"
+                value="<%=email%>"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="errorModal2"
+      tabindex="-1"
+      aria-labelledby="errorModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="errorModalLabel">NOTE</h5>
+          </div>
+          <div class="modal-body">
+            <h5 id="errorMessage"></h5>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container mt-4">
       <!-- Section: Design Block -->
       <section class="background-radial-gradient overflow-hidden">
@@ -205,6 +278,54 @@
         hide.style.display = "none";
         show.style.display = "inline";
       };
+    </script>
+    <script>
+      if ("<%=flag%>" == 1) {
+        const errorModal = new bootstrap.Modal(
+          document.getElementById("errorModal1")
+        );
+        errorModal.show();
+      }
+      if ("<%=flag%>" == 2) {
+        const message =
+        "Sorry, your OTP has expired. It appears that you have not completed the registration process yet. Please register again to receive a new OTP and complete your registration.";
+        const errorModal = new bootstrap.Modal(
+          document.getElementById("errorModal2")
+        );
+        document.getElementById("errorMessage").textContent = message;
+        errorModal.show();
+      }
+      if ("<%=flag%>" == 3) {
+        const message =
+        "Sorry, the OTP you entered is incorrect. Please try again."
+        const errorModal = new bootstrap.Modal(
+          document.getElementById("errorModal2")
+        );
+        document.getElementById("errorMessage").textContent = message;
+        errorModal.show();
+        const errorModal1 = new bootstrap.Modal(
+          document.getElementById("errorModal1")
+        );
+        errorModal1.show();
+      }
+      if ("<%=flag%>" == 4) {
+        const message =
+        "Sorry, that email address is already in use. Please try logging in or use a different email address to register.";
+        const errorModal = new bootstrap.Modal(
+          document.getElementById("errorModal2")
+        );
+        document.getElementById("errorMessage").textContent = message;
+        errorModal.show();
+      }
+      if ("<%=flag%>" == 5) {
+        const message =
+        "Sorry, that roll number is already in use. Please try logging in or use a different roll number to register."
+        const errorModal = new bootstrap.Modal(
+          document.getElementById("errorModal2")
+        );
+        document.getElementById("errorMessage").textContent = message;
+        errorModal.show();
+      }
     </script>
   </body>
 </html>

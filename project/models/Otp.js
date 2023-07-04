@@ -9,6 +9,15 @@ const otpSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
+  rollNumber: {
+    type: Number,
+    required: true,
+  },
+  password: String,
   expiresAt: {
     type: Date,
     required: true,
