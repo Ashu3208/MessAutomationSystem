@@ -4,7 +4,7 @@
   "description": "Login system implemented\r Authenticated with database",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon indes.js",
+    "start": "nodemon index.js",
     "test": "jest"
   },
   "keywords": [],
