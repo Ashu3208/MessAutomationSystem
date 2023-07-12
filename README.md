@@ -19,7 +19,7 @@ Broadly, the application will support the following:
 | Sawan H N           | 210952   | sawanhn2121@iitk.ac.in  |
 | Archisha Singh      | 210181   | archishas21@iitk.ac.in  |
 | Prapti Dagli        | 210748   | praptid21@iitk.ac.in    |
-| Mansi Singh         | 210590   | masnisingh21@iitk.ac.in |
+| Mansi Singh         | 210590   | mansisingh21@iitk.ac.in |
 | Charugundla Chethan | 210279   | chethan21@iitk.ac.in    |
 | Mokshagna Prattipati| 210761   | mokshagna21@iitk.ac.in  |
 | Sanjay Kuamr        | 210080   | askumar21@iitk.ac.in    |
